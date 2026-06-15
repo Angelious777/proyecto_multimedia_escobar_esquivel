@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo B — Filtro de Suavizado Espacial</title>
+    <link rel="stylesheet" href="./filtro.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Esquivel Castillo Vivian Roxana</span>
+            <h1 class="main-title">B. Filtro de Suavizado </h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn" id="trigger-modal-code">
+                <i class="ri-code-s-slash-line"></i> Ver Código Fuente
+            </button>
+            <button class="action-btn action-btn-accent" id="trigger-modal-sim">
+                <i class="ri-play-circle-line"></i> Ejecutar Simulador Web
+            </button>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Documentación Visual del Sistema</h2>
+                <p>Análisis del diseño de componentes, segmentación del algoritmo y pruebas de ejecución del entorno desarrollado en Visual Studio para escritorio (.NET Framework).</p>
+            </div>
+
+            <div class="captures-grid">
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/imagenes/diseno_vs.png" alt="Diseño de Interfaz Windows Forms" class="bounded-media">
+                        <span class="fallback-label">Control Visual: diseno_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Estructura del Formulario en IDE</h3>
+                        <p>Diseño de la arquitectura visual dentro del diseñador de Windows Forms. El contenedor utiliza controles estáticos de tipo PictureBox dispuestos de forma paralela para la comparación simétrica de buffers de imagen antes y después de los procesos de transformación lineal.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/imagenes/codigo_vs.png" alt="Entorno de Código de Convolución" class="bounded-media">
+                        <span class="fallback-label">Control Visual: codigo_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Bloque Algorítmico en C#</h3>
+                        <p>Captura del entorno de desarrollo que documenta la implementación de los bucles anidados espaciales. La rutina realiza la lectura secuencial de los canales RGB del píxel central y su vecindad de radio unitario mediante técnicas iterativas de convolución discreta.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/imagenes/ejecucion_antes_vs.png" alt="Instancia de Escritorio - Imagen Original" class="bounded-media">
+                        <span class="fallback-label">Control Visual: ejecucion_antes_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Compilación: Estado Inicial y Carga</h3>
+                        <p>La captura demuestra el despliegue de la interfaz de usuario de Windows Forms en Windows y la inicialización del mapa de bits crudo (origen con ruido de alta frecuencia) mapeado limpiamente en el búfer de memoria gráfica de la aplicación.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/imagenes/ejecucion_despues_vs.png" alt="Filtro de Suavizado Procesado" class="bounded-media">
+                        <span class="fallback-label">Control Visual: ejecucion_despues_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Ejecución: Renderizado del Filtro</h3>
+                        <p>Resultado de la ejecución en Visual Studio. Captura que documenta el comportamiento tras accionar el cálculo de filtro sobre la matriz de píxeles. Se observa el suavizado homogéneo de color en el contenedor destino y la mitigación de ruido mediante el filtro de promedio 3×3.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="modal-overlay" id="modal-code-wrapper">
+        <div class="modal-card modal-card-large">
+            <div class="modal-card-header">
+                <h2>Código Fuente — Solución Escritorio (C#)</h2>
+                <button class="close-modal-btn" id="close-modal-code"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-card-body code-body-wrapper">
+                <pre><code>using System;
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace filtro_suavizado
+{
+    public partial class Form1 : Form
+    {
+        Bitmap bmpOriginal;
+        Bitmap bmpResultado;
+
+        public Form1() { InitializeComponent(); }
+
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Archivos Imagen|*.jpg;*.png;*.jpeg";
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                bmpOriginal = new Bitmap(openFileDialog1.FileName);
+                picOriginal.Image = bmpOriginal;
+            }
+        }
+
+        private void btnFiltrar_Click(object sender, EventArgs e)
+        {
+            if (bmpOriginal == null) return;
+
+            int anchoReal = bmpOriginal.Width;
+            int altoReal = bmpOriginal.Height;
+            bmpResultado = new Bitmap(anchoReal, altoReal);
+
+            for (int x = 1; x < anchoReal - 1; x++)
+            {
+                for (int y = 1; y < altoReal - 1; y++)
+                {
+                    int sumaR = 0, sumaG = 0, sumaB = 0;
+
+                    for (int kx = -1; kx <= 1; kx++)
+                    {
+                        for (int ky = -1; ky <= 1; ky++)
+                        {
+                            Color pixelVecino = bmpOriginal.GetPixel(x + kx, y + ky);
+                            sumaR += pixelVecino.R;
+                            sumaG += pixelVecino.G;
+                            sumaB += pixelVecino.B;
+                        }
+                    }
+
+                    bmpResultado.SetPixel(x, y, Color.FromArgb(sumaR / 9, sumaG / 9, sumaB / 9));
+                }
+            }
+            picResultado.Image = bmpResultado;
+        }
+    }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-sim-wrapper">
+        <div class="modal-card modal-card-xlarge">
+            <div class="modal-card-header">
+                <div>
+                    <h2>Procesador de Matrices en Tiempo Real</h2>
+                    <p class="modal-subtitle-note">Nota: Este simulador está inspirado en el comportamiento algorítmico de la solución C# de Visual Studio, emulando la manipulación de vectores de píxeles a través de la API gráfica de HTML5 Canvas.</p>
+                </div>
+                <button class="close-modal-btn" id="close-modal-sim"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-card-body">
+                <div class="sim-control-panel">
+                    <input type="file" id="sim-file-input" accept="image/*" style="display: none;">
+                    <button class="sim-action-btn" onclick="document.getElementById('sim-file-input').click()">
+                        <i class="ri-image-add-line"></i> Importar Archivo
+                    </button>
+                    <button class="sim-action-btn sim-action-btn-run" id="sim-execute-btn" disabled>
+                        <i class="ri-settings-3-line"></i> Ejecutar Convolución (3x3)
+                    </button>
+                </div>
+
+                <div class="sim-workspace-grid">
+                    <div class="workspace-canvas-box">
+                        <span class="workspace-label">Origen (picOriginal)</span>
+                        <div class="canvas-wrapper-frame">
+                            <canvas id="sim-canvas-src"></canvas>
+                            <span class="canvas-fallback" id="fallback-src">Cargar archivo de entrada</span>
+                        </div>
+                    </div>
+                    <div class="workspace-canvas-box">
+                        <span class="workspace-label">Destino (picResultado)</span>
+                        <div class="canvas-wrapper-frame">
+                            <canvas id="sim-canvas-dest"></canvas>
+                            <span class="canvas-fallback" id="fallback-dest">Esperando procesamiento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-video-container" id="video-widget-frame">
+        <div class="video-widget-header" id="video-widget-header">
+            <span><i class="ri-video-line"></i> Demostración de Ejecución</span>
+            <button class="video-widget-close" id="close-video-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <video id="target-widget-video" loop muted playsinline>
+                <source src="./assets/video/evidencia_suavizado.mp4" type="video/mp4">
+            </video>
+            <div class="video-viewport-overlay" id="video-overlay-trigger">
+                <i class="ri-play-mini-fill"></i> Reproducir Evidencia
+            </div>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="filtro.js"></script>
+</body>
+</html>

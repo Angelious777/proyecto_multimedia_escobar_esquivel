@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Grupal — Entorno Interactivo 3D (Unity WebGL)</title>
+    <link rel="stylesheet" href="./grupal_unity.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico Grupal — Esquivel Castillo Vivian Roxana & Escobar Angel Daniel</span>
+            <h1 class="main-title">Proyecto Grupal: Entorno Animado 3D</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-webgl-widget">
+                <i class="ri-unity-line"></i> Inicializar Entorno WebGL Grupal
+            </button>
+            <div class="status-badge">
+                <i class="ri-user-shared-line"></i> Pipeline: Animación Humanoid & Control
+            </div>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Configuración, Rigging y Control 3D</h2>
+                <p>Cronología del desarrollo técnico: Importación de recursos poliédricos externos, auto-rigging, conversión al estándar biomecánico Humanoid, secuenciación en el Animator y programación del controlador de movimiento.</p>
+            </div>
+
+            <div class="collage-grid">
+                
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_assets_import.png" alt="Importación de Modelos 3D" class="bounded-media">
+                        <span class="fallback-label">Recursos: grupal_assets_import.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>1. Adquisición e Importación de Mallas 3D</h3>
+                        <p>Fase inicial del proyecto. Selección y descarga de un par de personajes tridimensionales optimizados desde repositorios web especializados. Los archivos se estructuran ordenadamente en la carpeta <code>Assets</code> de Unity, mapeando texturas, materiales y mallas poligonales iniciales de forma correcta.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_mixamo_rig.png" alt="Auto-Rigging en Mixamo" class="bounded-media">
+                        <span class="fallback-label">Mixamo: grupal_mixamo_rig.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>2. Auto-Rigging y Animaciones con Mixamo</h3>
+                        <p>Carga de los personajes en la plataforma Adobe Mixamo para el procesamiento de la estructura ósea virtual. Se posicionaron los marcadores anatómicos clave (mentón, muñecas, codos, rodillas e ingle) para calcular el pesado de vértices automático y exportar las animaciones cíclicas de locomoción (Idle, Walk, Run).</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_humanoid_config.png" alt="Configuración Rig Humanoid" class="bounded-media">
+                        <span class="fallback-label">Rigging: grupal_humanoid_config.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>3. Retargeting y Configuración Humanoid</h3>
+                        <p>Selección del Rig en el inspector de Unity y cambio del tipo de animación a <strong>Humanoid</strong>. Este paso crítico le indica al motor de renderizado que el esqueleto posee una topología anatómica humana compatible con el sistema de retargeting universal de Unity.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_skeleton_review.png" alt="Revisión del Esqueleto" class="bounded-media">
+                        <span class="fallback-label">Esqueleto: grupal_skeleton_review.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>4. Auditoría y Mapeo Óseo (Avatar)</h3>
+                        <p>Apertura de la herramienta <em>Configure Avatar</em> para auditar visualmente los nodos del esqueleto. Se verifica que cada hueso virtual (fémur, columna, extremidades, articulaciones) esté correctamente enlazado con los nodos del modelo para evitar deformaciones asimétricas de la malla durante la ejecución.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_animator_controller.png" alt="Animator Controller State Machine" class="bounded-media">
+                        <span class="fallback-label">Máquina de Estados: grupal_animator_controller.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>5. Orquestación en la Máquina de Estados (Animator)</h3>
+                        <p>Creación del <strong>Animator Controller</strong> y asignación a los personajes. Se estructuró tres <em>Animator Controller</em> para tres diferentes tipos de baile, que fueron asociados en pares de personajes.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/grupal_movement_controller.png" alt="Controlador de Movimiento e Inputs" class="bounded-media">
+                        <span class="fallback-label">Programación: grupal_movement_controller.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>6. Implementación del Controlador de Movimiento</h3>
+                        <p>Se crea un nuevo componente en el elemento de nuestra escena indicando Animator > Animator Controller y arrastrando el personaje junto con el controlador del baile elegido.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <div class="floating-video-container" id="webgl-widget-frame">
+        <div class="video-widget-header" id="webgl-widget-header">
+            <span><i class="ri-gamepad-line"></i> Entorno de Simulación WebGL — Vista Grupal</span>
+            <button class="video-widget-close" id="close-webgl-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <iframe id="unity-loader-iframe" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media"></iframe>
+            <div class="video-viewport-overlay" id="webgl-overlay-trigger">
+                <i class="ri-play-fill"></i> Inicializar Simulación Grupal 3D
+            </div>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="grupal_unity.js"></script>
+</body>
+</html>

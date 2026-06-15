@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo A — Reconocimiento de Texturas (C# + SQL) — Escobar Angel</title>
+    <link rel="stylesheet" href="./zonas.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Escobar Angel Daniel</span>
+            <h1 class="main-title">A. Reconocimiento de Texturas</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-video-widget">
+                <i class="ri-video-line"></i> Reproducir Demostración en Video
+            </button>
+            <div class="status-badge">
+                <i class="ri-database-2-line"></i> Reconocimiento: Zonas y Texturas
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Procesamiento y Almacenamiento</h2>
+                <p>Análisis del comportamiento del software: desde la carga dinámica del mapa de bits mediante OpenFileDialog hasta el cálculo de vecindades cromáticas y su clasificación espacial en el DBMS mediante vectores euclidianos.</p>
+            </div>
+
+            <div class="collage-grid">
+                
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/winforms_interfaz.jpg" alt="Interfaz Gráfica en C#" class="bounded-media">
+                        <span class="fallback-label">Entorno C#: winforms_interfaz.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Interfaz de Usuario e Ingesta Multimedia</h3>
+                        <p>Diseño del formulario interactivo en Windows Forms. Incorpora un control de exploración de archivos nativo filtrado para formatos estandarizados (.jpg, .png), un lienzo de previsualización <code>pctbImagen</code>, un visor de contraste dinámico para el color promedio seleccionado (<code>pctbColor</code>) y un grid de auditoría de persistencia enlazado al inicializar el ciclo de vida del componente.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/sql_tabla.jpg" alt="Tabla en SQL Server" class="bounded-media">
+                        <span class="fallback-label">Base de Datos: sql_tabla.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Estructura Relacional en SQL Server</h3>
+                        <p>Esquema de la entidad <code>textura</code> dentro del catálogo de datos <code>texturas</code>. Almacena las firmas cromáticas mediante el registro indexado del descriptor de la muestra (<code>tipo_textura</code>) y tres campos enteros normalizados destinados a resguardar las magnitudes discretas de los canales R, G y B.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/algoritmo_distancia.jpg" alt="Cálculo de Distancia de Color" class="bounded-media">
+                        <span class="fallback-label">Lógica: algoritmo_distancia.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Muestreo Convolucional de Vecindades</h3>
+                        <p>A diferencia de los enfoques puntuales aislados, el sistema ejecuta un doble bucle iterativo que examina una matriz de proximidad de 5x5 píxeles alrededor de la coordenada del cursor. Este proceso extrae un promedio ponderado de los canales RGB, mitigando el ruido digital de la imagen y estabilizando el patrón de la textura analizada.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/datagrid_actualizado.jpg" alt="DataGridView Refrescado" class="bounded-media">
+                        <span class="fallback-label">Persistencia: datagrid_actualizado.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Arquitectura Segura y Enlace de Datos</h3>
+                        <p>Sincronización del entorno mediante una arquitectura desconectada con <code>SqlDataAdapter</code> y <code>DataTable</code>. La persistencia implementa consultas parametrizadas robustas que inmunizan el canal de datos contra vulnerabilidades de inyección de código, refrescando de manera reactiva el búfer de la interfaz gráfica tras cada confirmación transaccional.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <section class="code-analysis-section">
+            <div class="section-title-wrapper">
+                <h2>Implementación de la Lógica del Backend (C#)</h2>
+                <p>Dado que este módulo requiere una conexión activa a un servidor relacional con seguridad integrada de Windows (<code>Trusted_Connection</code>), la ejecución en tiempo real desde la capa web está deshabilitada por aislamiento de red. A continuación, se expone el bloque de código fuente C# estructurado por el autor para este propósito:</p>
+            </div>
+
+            <div class="code-block-container">
+                <div class="code-header">
+                    <span><i class="ri-code-s-slash-line"></i> Form1.cs — DeteccionTexturas</span>
+                    <span class="code-lang">C#</span>
+                </div>
+                <pre class="code-viewport">
+<code>using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Data.SqlClient;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Deteccion_Texturas_Practica
+{
+    public partial class Form1 : Form
+    {
+        Bitmap bmp;
+        int clickX, clickY;
+        string conexion = "Server=localhost;Database=texturas;Trusted_Connection=True;";
+
+        public Form1()
+        {
+            InitializeComponent();
+            CargarDatos();
+        }
+
+        // Carga interactiva del mapa de bits con filtros explícitos
+        private void btnCargarImagen_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.Filter = "Archivos JPG|*.jpg|Archivos PNG|*.png";
+            openFileDialog1.ShowDialog();
+            bmp = new Bitmap(openFileDialog1.FileName);
+            pctbImagen.Image = bmp;
+        }
+
+        // Transformación lineal de coordenadas y mapeo del píxel real
+        private void pctbImagen_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (bmp == null) return;
+
+            float scaleX = (float)bmp.Width / pctbImagen.Width;
+            float scaleY = (float)bmp.Height / pctbImagen.Height;
+
+            int x = (int)(e.X * scaleX);
+            int y = (int)(e.Y * scaleY);
+
+            if (x &gt;= 0 && x &lt; bmp.Width && y &gt;= 0 && y &lt; bmp.Height)
+            {
+                Color c = bmp.GetPixel(x, y);
+
+                txtR.Text = c.R.ToString();
+                txtG.Text = c.G.ToString();
+                txtB.Text = c.B.ToString();
+
+                pctbColor.BackColor = c;
+            }
+
+            clickX = x;
+            clickY = y;
+        }
+
+        // Inserción transaccional parametrizada contra Inyección SQL
+        private void btnGuardarImagen_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtNombre.Text))
+            {
+                MessageBox.Show("Ingresa el tipo de textura");
+                return;
+            }
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conexion))
+                {
+                    conn.Open();
+                    string query = "INSERT INTO textura (tipo_textura, R, G, B) VALUES (@tipo, @r, @g, @b)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, conn))
+                    {
+                        cmd.Parameters.AddWithValue("@tipo", txtNombre.Text);
+                        cmd.Parameters.AddWithValue("@r", int.Parse(txtR.Text));
+                        cmd.Parameters.AddWithValue("@g", int.Parse(txtG.Text));
+                        cmd.Parameters.AddWithValue("@b", int.Parse(txtB.Text));
+
+                        cmd.ExecuteNonQuery();
+                    }
+                }
+
+                MessageBox.Show("Textura guardada correctamente");
+                CargarDatos();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.Message);
+            }
+        }
+
+        // Recuperación de registros mediante arquitectura desconectada
+        private void CargarDatos()
+        {
+            try
+            {
+                using (SqlConnection conn = new SqlConnection(conexion))
+                {
+                    conn.Open();
+                    string query = "SELECT * FROM textura";
+
+                    SqlDataAdapter da = new SqlDataAdapter(query, conn);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+
+                    dataGridView1.DataSource = dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar datos: " + ex.Message);
+            }
+        }
+
+        // Clasificador Espacial basado en Distancia Euclídea de Color Promedio
+        private void btnDetectar_Click(object sender, EventArgs e)
+        {
+            if (bmp == null) return;
+
+            int sR = 0, sG = 0, sB = 0;
+            int contador = 0;
+
+            // Procesamiento Convolucional (Entorno Matriz 5x5)
+            for (int i = clickX - 5; i &lt;= clickX + 5; i++)
+            {
+                for (int j = clickY - 5; j &lt;= clickY + 5; j++)
+                {
+                    if (i &gt;= 0 && i &lt; bmp.Width && j &gt;= 0 && j &lt; bmp.Height)
+                    {
+                        Color c = bmp.GetPixel(i, j);
+                        sR += c.R;
+                        sG += c.G;
+                        sB += c.B;
+                        contador++;
+                    }
+                }
+            }
+
+            int pR = sR / contador;
+            int pG = sG / contador;
+            int pB = sB / contador;
+
+            pctbColor.BackColor = Color.FromArgb(pR, pG, pB);
+
+            string mejorTipo = "";
+            double menorDistancia = double.MaxValue;
+
+            using (SqlConnection conn = new SqlConnection(conexion))
+            {
+                conn.Open();
+                string query = "SELECT tipo_textura, R, G, B FROM textura";
+
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        int r = dr.GetInt32(1);
+                        int g = dr.GetInt32(2);
+                        int b = dr.GetInt32(3);
+
+                        // Métrica Geométrica Euclídea de tres componentes
+                        double distancia = Math.Sqrt(
+                            Math.Pow(pR - r, 2) +
+                            Math.Pow(pG - g, 2) +
+                            Math.Pow(pB - b, 2)
+                        );
+
+                        if (distancia &lt; menorDistancia)
+                        {
+                            menorDistancia = distancia;
+                            mejorTipo = dr.GetString(0);
+                        }
+                    }
+                }
+            }
+
+            MessageBox.Show("Textura detectada: " + mejorTipo);
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="floating-video-container" id="video-widget-frame">
+        <div class="video-widget-header" id="video-widget-header">
+            <span><i class="ri-video-chat-line"></i> Demostración de Funcionamiento (C# + SQL) — Escobar Angel</span>
+            <button class="video-widget-close" id="close-video-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <video id="demo-html5-video" controls preload="metadata">
+                <source src="./assets/demostracion_texturas.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="zonas.js"></script>
+</body>
+</html>

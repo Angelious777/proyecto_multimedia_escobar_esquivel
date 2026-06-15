@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo C — Cover La Vaca Lola (Unity Audio Sync) — Escobar Angel</title>
+    <link rel="stylesheet" href="./vaca.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Escobar Angel Daniel</span>
+            <h1 class="main-title">C. Cover "La Vaca Lola"</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-webgl-widget">
+                <i class="ri-unity-line"></i> Inicializar Entorno WebGL
+            </button>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Producción Multimedia</h2>
+                <p>Cronología del desarrollo: Captura de voz cruda, clonación e inferencia tímbrica mediante Applio (Google Colab) con modelos de Hugging Face y secuenciación coreográfica en Unity.</p>
+            </div>
+
+            <div class="collage-grid">
+                
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame tall-frame">
+                        <img src="./assets/rvc_procesamiento.jpg" alt="Procesamiento de Audio en Applio" class="bounded-media">
+                        <span class="fallback-label">Entorno Applio: rvc_procesamiento.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>1. Grabación Base y Extracción desde Hugging Face</h3>
+                        <p>Fase inicial del proyecto. Se procedió con la captura analógica grabando la voz propia interpretando el tema infantil "La Vaca Lola". Paralelamente, se exploraron repositorios de inteligencia artificial en <strong>Hugging Face</strong> para localizar y descargar el dataset entrenado (.zip) con la voz del artista famoso elegido.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_assets.jpg" alt="Inferencia de Voz en Applio" class="bounded-media">
+                        <span class="fallback-label">Applio Colab: applio_inferencia.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>2. Conversión de Voz e Inferencia (Applio)</h3>
+                        <p>Vinculación de la plataforma de síntesis neuronal <strong>Applio</strong> con un cuaderno interactivo de <strong>Google Colab</strong>. Se cargó el audio cantado y se ejecutó el algoritmo de conversión de voz (RVC), procesando las frecuencias originales para transponerlas con precisión matemática hacia la voz del famoso sin perder la métrica rítmica.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_animator.jpg" alt="Importación de Pistas en Unity" class="bounded-media">
+                        <span class="fallback-label">Assets Unity: unity_assets_load.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>3. Mapeo de Pistas y Assets 3D</h3>
+                        <p>Estructuración del entorno multimedia dentro del motor de desarrollo. El archivo de audio `.wav` renderizado por la IA se importó a la carpeta de recursos de Unity, configurando el componente <code>AudioSource</code> y preparando los avatares tridimensionales encargados de reaccionar dinámicamente al fondo musical.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_coreografia.jpg" alt="Sincronización Rítmica" class="bounded-media">
+                        <span class="fallback-label">Línea de Tiempo: unity_timeline.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>4. Sincronización Coreográfica y Animación Final</h3>
+                        <p>Orquestación en la línea de tiempo de Unity. Haciendo uso del componente <strong>Animator</strong>, se programaron las transiciones y fotogramas clave (Keyframes) del personaje 3D, acoplando sus movimientos e interacciones físicas de manera exacta con los acentos percusivos y el ritmo del cover actualizado.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <div class="floating-video-container" id="webgl-widget-frame">
+        <div class="video-widget-header" id="webgl-widget-header">
+            <span><i class="ri-gamepad-line"></i> Reproductor Unity WebGL — Escobar Angel</span>
+            <button class="video-widget-close" id="close-webgl-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <iframe id="unity-loader-iframe" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media"></iframe>
+            <div class="video-viewport-overlay" id="webgl-overlay-trigger">
+                <i class="ri-play-fill"></i> Cargar Simulación 3D
+            </div>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="vaca.js"></script>
+</body>
+</html>

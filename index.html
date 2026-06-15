@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MULTIMEDIA — Plataforma Académica UMSA</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Iconos minimalistas Remix Icon -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <!-- BARRA DE NAVEGACIÓN SUPERIOR -->
+    <nav class="hoka-navbar">
+        <div class="navbar-brand">
+            MULTIMEDIA <span>UNIVERSIDAD MAYOR DE SAN ANDRÉS</span>
+        </div>
+        <ul class="navbar-menu">
+            <li class="navbar-item active"><a href="#">Inicio</a></li>
+            <li class="navbar-item"><a href="https://github.com" target="_blank">Repositorio</a></li>
+            <li class="navbar-item"><a href="#informe">Informe Técnico</a></li>
+        </ul>
+        <div class="navbar-actions">
+            <button class="theme-toggle-btn" id="theme-toggle" aria-label="Cambiar Tema">
+                <i class="ri-moon-line"></i>
+            </button>
+            <a href="https://github.com" class="btn-pill nav-action-link">Ver Código Fuente</a>
+        </div>
+    </nav>
+
+    <!-- ESTRUCTURA PRINCIPAL DE RECUADROS INTERACTIVOS -->
+    <div class="dashboard-container">
+        
+        <!-- SIDEBAR DE SELECCIÓN DE PRÁCTICAS -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Individuales: Escobar Angel</h2>
+                <ul class="sidebar-menu">
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESCOBAR_ANGEL_DANIEL/inciso_a/index.html" class="sidebar-link">A. Clasificación de Texturas</a></li>
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESCOBAR_ANGEL_DANIEL/inciso_b/index.html" class="sidebar-link">B. Filtro de Suavizado</a></li>
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESCOBAR_ANGEL_DANIEL/inciso_c/index.html" class="sidebar-link">C. Cover "La Vaca Lola"</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Individuales: Esquivel Vivian</h2>
+                <ul class="sidebar-menu">
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESQUIVEL_CASTILLO_VIVIAN_ROXANA/inciso_a/index.html" class="sidebar-link">A. Clasificación de Texturas</a></li>
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESQUIVEL_CASTILLO_VIVIAN_ROXANA/inciso_b/index.html" class="sidebar-link">B. Filtro de Suavizado</a></li>
+                    <li><a href="PRACTICAS_INDIVIDUALES/ESQUIVEL_CASTILLO_VIVIAN_ROXANA/inciso_c/index.html" class="sidebar-link">C. Cover "La Vaca Lola"</a></li>
+                </ul>
+            </div>
+
+            <div class="sidebar-section">
+                <h2 class="sidebar-title">Prácticas Grupales</h2>
+                <ul class="sidebar-menu">
+                    <li><a href="PRACTICAS_GRUPALES/WORKFLOW/index.html" class="sidebar-link">Workflow Trámites UMSA</a></li>
+                    <li><a href="PRACTICAS_GRUPALES/UNITY/index.html" class="sidebar-link">Unity Coreografía WebGL</a></li>
+                    <li><a href="PRACTICAS_GRUPALES/MESHROOM/index.html" class="sidebar-link">Fotogrametría Meshroom</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- ENTORNO DE TRABAJO DINÁMICO -->
+        <main class="main-viewport" id="content-viewport" style="padding: 0; overflow: hidden; height: calc(100vh - 70px);">
+            <div id="default-hero-view" class="exercise-container" style="padding: 2rem;">
+                <section class="hero-editorial">
+                    <h1 class="hero-title">A Journey Through Digital Interactive Multimedia Systems</h1>
+                    <p style="color: var(--text-muted); font-size: 1.1rem; line-height: 1.6; max-width: 750px;">
+                        Plataforma interactiva de desarrollo web y procesamiento nativo de señales. Este ecosistema académico consolida la integración entre algoritmos de manipulación matricial de imágenes, entornos tridimensionales interactivos compilados en WebGL y modelos optimizados de fotogrametría digital.
+                    </p>
+                </section>
+
+                <div class="video-container-block">
+                    <video autoplay loop muted playsinline>
+                        <source src="https://assets.mixkit.co/videos/preview/mixkit-abstract-laser-lights-background-23048-large.mp4" type="video/mp4">
+                    </video>
+                    <div class="video-overlay-text">
+                        <strong>PROCESO CONTINUO DE DESARROLLO</strong><br>
+                        Monitoreo de compilación de assets gráficos y optimización de mallas poligonales en tiempo real.
+                    </div>
+                </div>
+            </div>
+
+            <iframe id="sandbox-iframe" style="width: 100%; height: 100%; border: none; display: none;"></iframe>
+        </main>
+
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>

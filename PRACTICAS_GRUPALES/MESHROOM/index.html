@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo Grupal — Fotogrametría Interactiva (Meshroom)</title>
+    <link rel="stylesheet" href="./grupal_meshroom.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+    <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico Grupal — Esquivel Castillo Vivian Roxana & Escobar Angel Daniel</span>
+            <h1 class="main-title">Reconstrucción 3D y Fotogrametría</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-3d-viewer">
+                <i class="ri-3d-view"></i> Desplegar Visor 3D Interactivo
+            </button>
+            <div class="status-badge">
+                <i class="ri-scan-2-line"></i> Pipeline: Meshroom 
+            </div>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Captura y Procesamiento</h2>
+                <p>Flujo de trabajo para la digitalización tridimensional: Adquisición fotográfica del integrante del equipo, cálculo de correspondencias en Meshroom y exportación de la malla texturizada.</p>
+            </div>
+
+            <div class="collage-grid">
+                
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/meshroom_captura_fotos.png" alt="Sesión fotográfica del integrante" class="bounded-media">
+                        <span class="fallback-label">Muestreo: meshroom_captura_fotos.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>1. Adquisición y Muestreo Fotográfico</h3>
+                        <p>Sesión de captura controlada de un integrante del equipo. Se tomaron ráfagas de fotografías en un ángulo de 360 grados con un solapamiento mayor al 60% entre imágenes, garantizando condiciones de iluminación homogéneas para evitar sombras duras de textura.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/meshroom_pipeline_nodes.png" alt="Grafo de nodos en Meshroom" class="bounded-media">
+                        <span class="fallback-label">Nodos: meshroom_pipeline_nodes.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>2. Cómputo de Características y Grafo de Nodos</h3>
+                        <p>Carga del dataset fotográfico en <strong>Meshroom</strong>.  (<em>CameraInit</em>), detectando puntos característicos estables (<em>FeatureExtraction</em>) y emparejando las imágenes para resolver la orientación espacial.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/meshroom_ejecucion.png" alt="Nube de puntos densa" class="bounded-media">
+                        <span class="fallback-label">Estructura: meshroom_dense_cloud.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>3. Proceso de Texturizacion</h3>
+                        <p>Generación de la textura (<em>DepthMap</em>). Este proceso matemático triangulariza la posición exacta en el espacio tridimensional de cada píxel correlacionado, debido a los errores que genera en un proyecto como este, se optó por eliminarlo debido a los recursos de los integrantes.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/meshroom_texturing.png" alt="Proceso de Texturizado" class="bounded-media">
+                        <span class="fallback-label">Mesh: meshroom_texturing.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>4. Meshing, Texturizado y Exportación .OBJ</h3>
+                        <p>Fase final del procesamiento. El nodo <em>Meshing</em> une la formación de las imagenes. <em>Texturing</em> proyecta las fotos originales sobre la malla. El resultado se exporta en formato <code>.obj</code> con sus mapas de texturas difusas adjuntos.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <div class="floating-viewer-container" id="meshroom-widget-frame">
+        <div class="viewer-widget-header" id="meshroom-widget-header">
+            <span><i class="ri-user-voice-line"></i> Manipulación de Modelo 3D — Vista de Examen</span>
+            <button class="viewer-widget-close" id="close-meshroom-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="viewer-widget-viewport">
+            
+            <model-viewer 
+                id="integrante-3d-model"
+                src="../assets/modelos/integrante_meshroom.glb" 
+                camera-controls 
+                auto-rotate 
+                interaction-prompt="auto"
+                shadow-intensity="1"
+                exposure="1.2"
+                ar-status="not-presenting">
+                
+                <div class="viewer-instructions" id="custom-hint">
+                    <i class="ri-drag-drop-line"></i> Clic Izquierdo + Arrastrar para Rotar | Rueda para Zoom
+                </div>
+            </model-viewer>
+
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="grupal_meshroom.js"></script>
+</body>
+</html>

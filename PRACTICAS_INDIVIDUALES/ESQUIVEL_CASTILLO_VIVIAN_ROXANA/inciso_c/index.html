@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo C — Cover La Vaca Lola (Unity Audio Sync)</title>
+    <link rel="stylesheet" href="./vaca.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Esquivel Castillo Vivian Roxana</span>
+            <h1 class="main-title">C. Cover "La Vaca Lola"</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-webgl-widget">
+                <i class="ri-unity-line"></i> Inicializar Entorno WebGL
+            </button>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Producción Multimedia</h2>
+                <p>Cronología del desarrollo: Clonación de voz mediante síntesis neuronal RVC, secuenciación rítmica y estructuración de la coreografía 3D dentro del motor Unity.</p>
+            </div>
+
+            <!-- GRID ESTILO COLLAGE DE 3 COLUMNAS ASIMÉTRICAS -->
+            <div class="collage-grid">
+                
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame tall-frame">
+                        <img src="./assets/rvc_procesamiento.png" alt="Procesamiento de Audio en RVC" class="bounded-media">
+                        <span class="fallback-label">Entorno RVC: rvc_procesamiento.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Clonación de Voz e Inferencia (RVC)</h3>
+                        <p>Fase inicial del proceso de audio. Configuración e ingreso del archivo comprimido (.zip) con el modelo de voz entrenado y el archivo de audio base. El software procesa las frecuencias y realiza la inferencia para transponer las características hacia el modelo objetivo, generando la pista musical final adaptada al ritmo requerido.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_assets.png" alt="Importación de Recursos en Unity" class="bounded-media">
+                        <span class="fallback-label">Recursos: unity_assets.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Mapeo de Pistas y Assets</h3>
+                        <p>Estructuración del proyecto dentro de Unity. Importación del archivo de audio procesado por la IA y preparación de los componentes de animación que reaccionarán al ritmo de la música.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_animator.png" alt="Unity Timeline Editor" class="bounded-media">
+                        <span class="fallback-label">Línea de Tiempo: unity_timeline.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Sincronización Rítmica</h3>
+                        <p>Uso de la herramienta Animator para coordinar los eventos de animación del personaje, organizando movimientos para que se mueva cuando exista ritmo</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/unity_coreografia.png" alt="Ajuste de Animación 3D" class="bounded-media">
+                        <span class="fallback-label">Coreografía: unity_coreografia.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Integración de Animación y Audio Final</h3>
+                        <p>Ajuste de los fotogramas clave (Keyframes) del modelo 3D en escena. La coreografía se acopla con la pista lírica del cover, asegurando que las transiciones de movimiento ocurran exactamente en los acentos de la percusión.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- VENTANA EMERGENTE INTERACTIVA PARA EL MOTOR UNITY WEBGL -->
+    <div class="floating-video-container" id="webgl-widget-frame">
+        <div class="video-widget-header" id="webgl-widget-header">
+            <span><i class="ri-gamepad-line"></i> Reproductor Unity WebGL</span>
+            <button class="video-widget-close" id="close-webgl-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <!-- El iframe cargará directamente el index.html generado por Unity -->
+            <iframe id="unity-loader-iframe" src="" frameborder="0" allow="autoplay; fullscreen; encrypted-media"></iframe>
+            <div class="video-viewport-overlay" id="webgl-overlay-trigger">
+                <i class="ri-play-fill"></i> Cargar Simulación 3D
+            </div>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="vaca.js"></script>
+</body>
+</html>

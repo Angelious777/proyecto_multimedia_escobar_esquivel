@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo B — Filtro de Suavizado Espacial — Escobar Angel</title>
+    <link rel="stylesheet" href="./filtro.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Escobar Angel Daniel</span>
+            <h1 class="main-title">B. Filtro de Suavizado Espacial (Box Blur)</h1>
+        </header>
+
+        <section class="action-trigger-bar">
+            <button class="action-btn" id="trigger-modal-code">
+                <i class="ri-code-s-slash-line"></i> Ver Código Fuente
+            </button>
+            <button class="action-btn action-btn-accent" id="trigger-modal-sim">
+                <i class="ri-play-circle-line"></i> Ejecutar Simulador Web
+            </button>
+        </section>
+
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Documentación Visual del Sistema</h2>
+                <p>Análisis del diseño de componentes, segmentación del algoritmo y pruebas de ejecución del entorno desarrollado en Visual Studio para escritorio (.NET Framework).</p>
+            </div>
+
+            <div class="captures-grid">
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/diseno_vs.jpg" alt="Diseño de Interfaz Windows Forms" class="bounded-media">
+                        <span class="fallback-label">Control Visual: diseno_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Estructura del Formulario en IDE</h3>
+                        <p>Diseño de la arquitectura visual dentro del diseñador de Windows Forms. El contenedor aloja dos componentes dinámicos de tipo <code>PictureBox</code> organizados lado a lado, permitiendo la comparación directa del mapa de bits crudo frente al procesado por el kernel.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/codigo_vs.jpg" alt="Entorno de Código de Convolución" class="bounded-media">
+                        <span class="fallback-label">Control Visual: codigo_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Bloque Algorítmico en C#</h3>
+                        <p>Captura del entorno de desarrollo que documenta la implementación de los bucles anidados espaciales. La rutina realiza la lectura secuencial de los canales RGB del píxel central y su vecindad de radio unitario mediante técnicas iterativas de convolución discreta.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/ejecucion_antes_vs.jpg" alt="Instancia de Escritorio - Imagen Original" class="bounded-media">
+                        <span class="fallback-label">Control Visual: ejecucion_antes_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Compilación: Estado Inicial y Carga</h3>
+                        <p>La captura demuestra el despliegue de la interfaz de usuario de Windows Forms en Windows y la inicialización del mapa de bits crudo mapeado limpiamente en el búfer de memoria gráfica de la aplicación a través de la instancia <code>pictureBox1</code>.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/ejecucion_despues_vs.jpg" alt="Filtro de Suavizado Procesado" class="bounded-media">
+                        <span class="fallback-label">Control Visual: ejecucion_despues_vs.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Ejecución: Renderizado del Filtro</h3>
+                        <p>Resultado de la ejecución en Visual Studio. Captura que documenta el comportamiento tras accionar el cálculo de filtro sobre la matriz de píxeles. Se observa el suavizado homogéneo en <code>pictureBox2</code> mediante la mitigación de variaciones bruscas de tono por filtro de promedio de caja 3×3.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <div class="modal-overlay" id="modal-code-wrapper">
+        <div class="modal-card modal-card-large">
+            <div class="modal-card-header">
+                <h2>Código Fuente — Solución Escritorio (C#)</h2>
+                <button class="close-modal-btn" id="close-modal-code"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-card-body code-body-wrapper">
+                <pre><code>using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+
+namespace Filtro_Suavizado_Practica
+{
+    public partial class Form1 : Form
+    {
+        Bitmap imagenOriginal;
+
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        // Carga dinámica de mapas de bits con extensiones filtradas
+        private void btnCargar_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog();
+            ofd.Filter = "Imágenes|*.jpg;*.png;*.bmp";
+
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                imagenOriginal = new Bitmap(ofd.FileName);
+                pictureBox1.Image = imagenOriginal;
+            }
+        }
+
+        // Procesamiento Digital de Imágenes: Máscara Convolucional 3x3 de Promedio
+        private void btnFiltro_Click(object sender, EventArgs e)
+        {
+            if (imagenOriginal == null) return;
+
+            Bitmap resultado = new Bitmap(imagenOriginal.Width, imagenOriginal.Height);
+
+            // Bucle espacial preservando los bordes de la imagen periférica
+            for (int y = 1; y &lt; imagenOriginal.Height - 1; y++)
+            {
+                for (int x = 1; x &lt; imagenOriginal.Width - 1; x++)
+                {
+                    int sumaR = 0;
+                    int sumaG = 0;
+                    int sumaB = 0;
+
+                    // Convolución discreta en vecindad de radio unitario (Kernel 3x3)
+                    for (int j = -1; j &lt;= 1; j++)
+                    {
+                        for (int i = -1; i &lt;= 1; i++)
+                        {
+                            Color pixel = imagenOriginal.GetPixel(x + i, y + j);
+
+                            sumaR += pixel.R;
+                            sumaG += pixel.G;
+                            sumaB += pixel.B;
+                        }
+                    }
+
+                    // Cálculo aritmético del promedio de los 9 píxeles circundantes
+                    int promedioR = sumaR / 9;
+                    int promedioG = sumaG / 9;
+                    int promedioB = sumaB / 9;
+
+                    Color nuevoColor = Color.FromArgb(promedioR, promedioG, promedioB);
+                    resultado.SetPixel(x, y, nuevoColor);
+                }
+            }
+
+            pictureBox2.Image = resultado;
+        }
+    }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-sim-wrapper">
+        <div class="modal-card modal-card-xlarge">
+            <div class="modal-card-header">
+                <div>
+                    <h2>Procesador de Matrices en Tiempo Real — Escobar Angel</h2>
+                    <p class="modal-subtitle-note">Nota: Este simulador está inspirado en el comportamiento algorítmico de la solución C# de Visual Studio, emulando la manipulación de vectores de píxeles a través de la API gráfica de HTML5 Canvas.</p>
+                </div>
+                <button class="close-modal-btn" id="close-modal-sim"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="modal-card-body">
+                <div class="sim-control-panel">
+                    <input type="file" id="sim-file-input" accept="image/*" style="display: none;">
+                    <button class="sim-action-btn" onclick="document.getElementById('sim-file-input').click()">
+                        <i class="ri-image-add-line"></i> Importar Archivo
+                    </button>
+                    <button class="sim-action-btn sim-action-btn-run" id="sim-execute-btn" disabled>
+                        <i class="ri-settings-3-line"></i> Ejecutar Convolución (3x3)
+                    </button>
+                </div>
+
+                <div class="sim-workspace-grid">
+                    <div class="workspace-canvas-box">
+                        <span class="workspace-label">Origen (pictureBox1)</span>
+                        <div class="canvas-wrapper-frame">
+                            <canvas id="sim-canvas-src"></canvas>
+                            <span class="canvas-fallback" id="fallback-src">Cargar archivo de entrada</span>
+                        </div>
+                    </div>
+                    <div class="workspace-canvas-box">
+                        <span class="workspace-label">Destino (pictureBox2)</span>
+                        <div class="canvas-wrapper-frame">
+                            <canvas id="sim-canvas-dest"></canvas>
+                            <span class="canvas-fallback" id="fallback-dest">Esperando procesamiento</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="floating-video-container" id="video-widget-frame">
+        <div class="video-widget-header" id="video-widget-header">
+            <span><i class="ri-video-line"></i> Demostración de Ejecución — Escobar Angel</span>
+            <button class="video-widget-close" id="close-video-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <video id="target-widget-video" loop muted playsinline>
+                <source src="./assets/evidencia_suavizado.mp4" type="video/mp4">
+            </video>
+            <div class="video-viewport-overlay" id="video-overlay-trigger">
+                <i class="ri-play-mini-fill"></i> Reproducir Evidencia
+            </div>
+        </div>
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="filtro.js"></script>
+</body>
+</html>

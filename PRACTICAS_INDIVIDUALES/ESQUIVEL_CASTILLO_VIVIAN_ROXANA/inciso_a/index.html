@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Módulo A — Reconocimiento de Zonas y Texturas (C# + SQL)</title>
+    <link rel="stylesheet" href="./zonas.css">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
+</head>
+<body>
+
+    <div class="editorial-container">
+        
+        <header class="editorial-header">
+            <span class="meta-context">Proyecto Académico — Esquivel Castillo Vivian Roxana</span>
+            <h1 class="main-title">A. Reconocimiento de Zonas por Color</h1>
+        </header>
+
+        <!-- BARRA DE ACCIÓN PARA EL VIDEO DEMOSTRATIVO -->
+        <section class="action-trigger-bar">
+            <button class="action-btn action-btn-accent" id="trigger-video-widget">
+                <i class="ri-video-line"></i> Reproducir Demostración en Video
+            </button>
+            <div class="status-badge">
+                <i class="ri-database-2-line"></i> Reconocimiento: Mapa de Zonas
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE DETALLES DEL PROCESO Y CAPTURAS -->
+        <section class="gallery-captures-section">
+            <div class="section-title-wrapper">
+                <h2>Pipeline de Procesamiento y Almacenamiento</h2>
+                <p>Análisis del comportamiento del software: desde el mapeo bidimensional de coordenadas en el PictureBox hasta la clasificación Euclidiana/Manhattan de vectores RGB guardados en el DBMS.</p>
+            </div>
+
+            <!-- COLLAGE EDITORIAL DE 3 COLUMNAS ASIMÉTRICAS -->
+            <div class="collage-grid">
+                
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame tall-frame">
+                        <img src="./assets/winforms_interfaz.png" alt="Interfaz Gráfica en C#" class="bounded-media">
+                        <span class="fallback-label">Entorno C#: winforms_interfaz.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Interfaz de Usuario y Mapeo de Píxeles</h3>
+                        <p>Diseño del formulario en Windows Forms. Incorpora un control PictureBox adaptativo, cuadros de texto para los componentes cromáticos (R, G, B), un DataGridView enlazado dinámicamente y etiquetas de estado. Al hacer clic, el método matemático reescala las dimensiones relativas del puntero del mouse a las dimensiones reales del mapa de bits original.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/sql_tabla.png" alt="Tabla en SQL Server" class="bounded-media">
+                        <span class="fallback-label">Base de Datos: sql_tabla.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Estructura en SQL Server</h3>
+                        <p>Esquema de la tabla <code>reconocimiento_puntos</code> dentro de la base de datos <code>bd_Texturas</code>. Muestra los registros guardados con sus respectivas claves primarias, nombres descriptivos del punto, el tipo de zona asignado y las tres columnas numéricas dedicadas a los canales de color.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/algoritmo_distancia.png" alt="Cálculo de Distancia de Color" class="bounded-media">
+                        <span class="fallback-label">Lógica: algoritmo_distancia.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Clasificación por Distancia Cromática</h3>
+                        <p>Visualización del flujo del bucle del DataReader. El algoritmo calcula de manera iterativa el diferencial absoluto de cada canal de color frente a las muestras previamente entrenadas. Al hallar el menor residuo matemático (la menor distancia), clasifica la zona del píxel actual de forma exacta.</p>
+                    </div>
+                </div>
+
+                <div class="capture-card span-2">
+                    <div class="media-placeholder-frame">
+                        <img src="./assets/datagrid_actualizado.png" alt="DataGridView Refrescado" class="bounded-media">
+                        <span class="fallback-label">Persistencia: datagrid_actualizado.png</span>
+                    </div>
+                    <div class="capture-description">
+                        <h3>Sincronización de Datos en Tiempo Real</h3>
+                        <p>Muestra del formulario tras ejecutar una inserción de datos exitosa. Se observa el refresco automatizado del componente visual mediante un SqlDataAdapter, lo que permite auditar visualmente que la tupla de datos se ha insertado correctamente en el motor local sin perder coherencia transaccional.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <hr class="section-divider">
+
+        <!-- ANÁLISIS DEL CÓDIGO FUENTE -->
+        <section class="code-analysis-section">
+            <div class="section-title-wrapper">
+                <h2>Implementación del Lógica del Backend (C#)</h2>
+                <p>Dado que este módulo requiere una conexión activa a un servidor de base de datos relacional local (SQL Server), la ejecución en tiempo real mediante botones web directos está deshabilitada por restricciones de arquitectura de red del navegador. A continuación se expone el bloque de código C# implementado para este fin:</p>
+            </div>
+
+            <div class="code-block-container">
+                <div class="code-header">
+                    <span><i class="ri-code-s-slash-line"></i> Form1.cs — ReconocimientoZonas</span>
+                    <span class="code-lang">C#</span>
+                </div>
+                <pre class="code-viewport">
+<code>using System;
+using System.Data;
+using System.Drawing;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+namespace reconocimiento_zonas
+{
+    public partial class Form1 : Form
+    {
+        Bitmap bmp;
+        int lastX, lastY;
+
+        // Captura el color RGB del píxel escalado en el PictureBox
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (bmp == null) return;
+            Point p = GetImageCoordinates(pictureBox1, e);
+            lastX = p.X; lastY = p.Y;
+
+            if (lastX &lt; 0 || lastY &lt; 0) return;
+            Color c = bmp.GetPixel(lastX, lastY);
+
+            txtR.Text = c.R.ToString();
+            txtG.Text = c.G.ToString();
+            txtB.Text = c.B.ToString();
+        }
+
+        // Guarda el vector de color y su etiqueta en SQL Server
+        private void btnGuardar_Click(object sender, EventArgs e)
+        {
+            using (SqlConnection con = new SqlConnection("server=(local); user=multimedia; pwd=1234; database=bd_Texturas"))
+            {
+                string query = "INSERT INTO reconocimiento_puntos(nombre_punto, tipo_zona, R, G, B) VALUES ('"
+                             + txtNombre.Text + "','" + txtTipoZona.Text + "'," + txtR.Text + "," + txtG.Text + "," + txtB.Text + ")";
+                SqlCommand cmd = new SqlCommand(query, con);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+
+            // Actualiza de inmediato el DataGridView de la interfaz
+            SqlDataAdapter ada = new SqlDataAdapter("SELECT * FROM reconocimiento_puntos", "server=(local); user=multimedia; pwd=1234; database=bd_Texturas");
+            DataSet ds = new DataSet();
+            ada.Fill(ds);
+            dataGridView1.DataSource = ds.Tables[0];
+        }
+
+        // Algoritmo Clasificador por Distancia Absoluta (Manhattan)
+        private void btnReconocer_Click(object sender, EventArgs e)
+        {
+            if (bmp == null || lastX &lt; 0) return;
+            Color c = bmp.GetPixel(lastX, lastY);
+
+            using (SqlConnection con = new SqlConnection("server=(local); user=multimedia; pwd=1234; database=bd_Texturas"))
+            {
+                con.Open();
+                SqlCommand cmd = new SqlCommand("SELECT * FROM reconocimiento_puntos", con);
+                SqlDataReader dr = cmd.ExecuteReader();
+
+                string zona = "";
+                int mejor = int.MaxValue;
+
+                while (dr.Read())
+                {
+                    int r = Convert.ToInt32(dr["R"]);
+                    int g = Convert.ToInt32(dr["G"]);
+                    int b = Convert.ToInt32(dr["B"]);
+
+                    // Distancia matemática de bloques (Manhattan)
+                    int dist = Math.Abs(c.R - r) + Math.Abs(c.G - g) + Math.Abs(c.B - b);
+
+                    if (dist &lt; mejor)
+                    {
+                        mejor = dist;
+                        zona = dr["tipo_zona"].ToString();
+                    }
+                }
+                lblResultado.Text = zona;
+                MessageBox.Show("Zona detectada: " + zona);
+            }
+        }
+
+        // Ajusta las coordenadas del clic al tamaño real de la imagen cargada
+        private Point GetImageCoordinates(PictureBox pb, MouseEventArgs e)
+        {
+            if (pb.Image == null) return new Point(-1, -1);
+            return new Point((int)(e.X * (pb.Image.Width / (float)pb.Width)), (int)(e.Y * (pb.Image.Height / (float)pb.Height)));
+        }
+    }
+}</code></pre>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- VENTANA EMERGENTE REDIMENSIONABLE CON REPRODUCTOR DE VIDEO (CON BARRA DE TIEMPO) -->
+    <div class="floating-video-container" id="video-widget-frame">
+        <div class="video-widget-header" id="video-widget-header">
+            <span><i class="ri-video-chat-line"></i> Demostración de Funcionamiento (C# + SQL)</span>
+            <button class="video-widget-close" id="close-video-widget"><i class="ri-close-line"></i></button>
+        </div>
+        <div class="video-widget-viewport">
+            <!-- Reproductor HTML5 Nativo: incluye barra de tiempo completa, volumen y pantalla completa -->
+            <video id="demo-html5-video" controls preload="metadata">
+                <source src="./assets/demostracion_zonas.mp4" type="video/mp4">
+                Tu navegador no soporta la reproducción de video HTML5.
+            </video>
+        </div>
+        <!-- Controladores de Redimensionamiento (Resizers) -->
+        <div class="resizer tl"></div>
+        <div class="resizer tr"></div>
+        <div class="resizer bl"></div>
+        <div class="resizer br"></div>
+    </div>
+
+    <script src="zonas.js"></script>
+</body>
+</html>
