@@ -108,11 +108,11 @@ body {
     line-height: 1.6;
 }
 
-/* COLLAGE GRID */
 .collage-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 2.5rem;
+    align-items: start;
 }
 
 .capture-card {
@@ -123,6 +123,7 @@ body {
     border-radius: var(--radius-smooth);
     padding: 1.25rem;
     overflow: hidden;
+    height: fit-content;
 }
 
 .capture-card.span-2 {
