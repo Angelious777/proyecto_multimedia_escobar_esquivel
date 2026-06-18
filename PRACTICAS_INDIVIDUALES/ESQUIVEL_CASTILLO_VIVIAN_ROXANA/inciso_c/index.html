@@ -23,59 +23,55 @@
         </section>
 
         <section class="gallery-captures-section">
-            <div class="section-title-wrapper">
-                <h2>Pipeline de Producción Multimedia</h2>
-                <p>Cronología del desarrollo: Clonación de voz mediante síntesis neuronal RVC, secuenciación rítmica y estructuración de la coreografía 3D dentro del motor Unity.</p>
-            </div>
 
-            <!-- GRID ESTILO COLLAGE DE 3 COLUMNAS ASIMÉTRICAS -->
             <div class="collage-grid">
                 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame tall-frame">
                         <img src="./assets/rvc_procesamiento.png" alt="Procesamiento de Audio en RVC" class="bounded-media">
-                        <span class="fallback-label">Entorno RVC: rvc_procesamiento.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Clonación de Voz e Inferencia (RVC)</h3>
-                        <p>Fase inicial del proceso de audio. Configuración e ingreso del archivo comprimido (.zip) con el modelo de voz entrenado y el archivo de audio base. El software procesa las frecuencias y realiza la inferencia para transponer las características hacia el modelo objetivo, generando la pista musical final adaptada al ritmo requerido.</p>
+                        <h3>Conversión de Voz con RVC</h3>
+                        <p>Se cargó el modelo de voz entrenado junto con el archivo de audio original. RVC procesó la grabación y generó una nueva versión utilizando la voz seleccionada.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_assets.png" alt="Importación de Recursos en Unity" class="bounded-media">
-                        <span class="fallback-label">Recursos: unity_assets.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Mapeo de Pistas y Assets</h3>
-                        <p>Estructuración del proyecto dentro de Unity. Importación del archivo de audio procesado por la IA y preparación de los componentes de animación que reaccionarán al ritmo de la música.</p>
+                        <h3>Importación de Recursos</h3>
+                        <p>El audio generado se importó al proyecto de Unity junto con los modelos y recursos necesarios para la escena.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_animator.png" alt="Unity Timeline Editor" class="bounded-media">
-                        <span class="fallback-label">Línea de Tiempo: unity_timeline.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Sincronización Rítmica</h3>
-                        <p>Uso de la herramienta Animator para coordinar los eventos de animación del personaje, organizando movimientos para que se mueva cuando exista ritmo</p>
+                        <h3>Configuración de Animaciones</h3>
+                        <p>Se utilizó el componente <code>Animator</code> para asignar y organizar las animaciones del personaje que acompañarán la reproducción de la música.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_coreografia.png" alt="Ajuste de Animación 3D" class="bounded-media">
-                        <span class="fallback-label">Coreografía: unity_coreografia.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Integración de Animación y Audio Final</h3>
-                        <p>Ajuste de los fotogramas clave (Keyframes) del modelo 3D en escena. La coreografía se acopla con la pista lírica del cover, asegurando que las transiciones de movimiento ocurran exactamente en los acentos de la percusión.</p>
+                        <h3>Resultado Final</h3>
+                        <p>Integración de la animación y el audio dentro de la escena. El personaje reproduce sus movimientos mientras se escucha la canción generada, completando la demostración del proyecto.</p>
                     </div>
                 </div>
 
             </div>
+
         </section>
 
     </div>
@@ -98,7 +94,10 @@
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+    <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="vaca.js"></script>
 </body>
 </html>

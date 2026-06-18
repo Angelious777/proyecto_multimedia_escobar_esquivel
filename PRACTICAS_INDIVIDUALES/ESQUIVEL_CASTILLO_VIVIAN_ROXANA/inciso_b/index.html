@@ -26,56 +26,53 @@
         </section>
 
         <section class="gallery-captures-section">
-            <div class="section-title-wrapper">
-                <h2>Documentación Visual del Sistema</h2>
-                <p>Análisis del diseño de componentes, segmentación del algoritmo y pruebas de ejecución del entorno desarrollado en Visual Studio para escritorio (.NET Framework).</p>
-            </div>
 
             <div class="captures-grid">
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/imagenes/diseno_vs.png" alt="Diseño de Interfaz Windows Forms" class="bounded-media">
-                        <span class="fallback-label">Control Visual: diseno_vs.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Estructura del Formulario en IDE</h3>
-                        <p>Diseño de la arquitectura visual dentro del diseñador de Windows Forms. El contenedor utiliza controles estáticos de tipo PictureBox dispuestos de forma paralela para la comparación simétrica de buffers de imagen antes y después de los procesos de transformación lineal.</p>
+                        <h3>Diseño del Formulario</h3>
+                        <p>Vista del formulario desarrollado en Windows Forms. Se utilizan dos controles <code>PictureBox</code> para mostrar la imagen original y la imagen procesada, permitiendo comparar fácilmente los resultados.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/imagenes/codigo_vs.png" alt="Entorno de Código de Convolución" class="bounded-media">
-                        <span class="fallback-label">Control Visual: codigo_vs.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Bloque Algorítmico en C#</h3>
-                        <p>Captura del entorno de desarrollo que documenta la implementación de los bucles anidados espaciales. La rutina realiza la lectura secuencial de los canales RGB del píxel central y su vecindad de radio unitario mediante técnicas iterativas de convolución discreta.</p>
+                        <h3>Código del Filtro</h3>
+                        <p>Fragmento del código en C# encargado de recorrer los píxeles de la imagen y aplicar el filtro. El proceso analiza cada píxel junto con los que lo rodean para generar una nueva imagen suavizada.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/imagenes/ejecucion_antes_vs.png" alt="Instancia de Escritorio - Imagen Original" class="bounded-media">
-                        <span class="fallback-label">Control Visual: ejecucion_antes_vs.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Compilación: Estado Inicial y Carga</h3>
-                        <p>La captura demuestra el despliegue de la interfaz de usuario de Windows Forms en Windows y la inicialización del mapa de bits crudo (origen con ruido de alta frecuencia) mapeado limpiamente en el búfer de memoria gráfica de la aplicación.</p>
+                        <h3>Imagen Original</h3>
+                        <p>Estado inicial de la aplicación después de cargar la imagen. En esta etapa todavía no se ha aplicado ningún procesamiento y se observa la imagen tal como fue seleccionada.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/imagenes/ejecucion_despues_vs.png" alt="Filtro de Suavizado Procesado" class="bounded-media">
-                        <span class="fallback-label">Control Visual: ejecucion_despues_vs.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>Ejecución: Renderizado del Filtro</h3>
-                        <p>Resultado de la ejecución en Visual Studio. Captura que documenta el comportamiento tras accionar el cálculo de filtro sobre la matriz de píxeles. Se observa el suavizado homogéneo de color en el contenedor destino y la mitigación de ruido mediante el filtro de promedio 3×3.</p>
+                        <h3>Resultado del Filtro</h3>
+                        <p>Imagen obtenida después de aplicar el filtro de promedio 3×3. Se aprecia un efecto de suavizado que reduce las diferencias bruscas entre píxeles y mejora la uniformidad de la imagen.</p>
                     </div>
                 </div>
             </div>
+
         </section>
 
     </div>
@@ -204,7 +201,10 @@ namespace filtro_suavizado
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+    <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="filtro.js"></script>
 </body>
 </html>

@@ -25,39 +25,35 @@
         </section>
 
         <section class="gallery-captures-section">
-            <div class="section-title-wrapper">
-                <h2>Pipeline de Procesamiento y Almacenamiento</h2>
-                <p>Análisis del comportamiento del software: desde la carga dinámica del mapa de bits mediante OpenFileDialog hasta el cálculo de vecindades cromáticas y su clasificación espacial en el DBMS mediante vectores euclidianos.</p>
-            </div>
-
+        
             <div class="collage-grid">
                 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/winforms_interfaz.jpg" alt="Interfaz Gráfica en C#" class="bounded-media">
-                        <span class="fallback-label">Entorno C#: winforms_interfaz.png</span>
+                         <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
                         <h3>Interfaz de Usuario e Ingesta Multimedia</h3>
-                        <p>Diseño del formulario interactivo en Windows Forms. Incorpora un control de exploración de archivos nativo filtrado para formatos estandarizados (.jpg, .png), un lienzo de previsualización <code>pctbImagen</code>, un visor de contraste dinámico para el color promedio seleccionado (<code>pctbColor</code>) y un grid de auditoría de persistencia enlazado al inicializar el ciclo de vida del componente.</p>
+                        <p>Diseño del formulario en Windows Forms. Incorpora un control de exploración de archivos para formatos estandarizados (.jpg, .png) <code>pctbImagen</code>, además de un visor de contraste para el color promedio seleccionado (<code>pctbColor</code>) y un grid  de persistencia.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/sql_tabla.jpg" alt="Tabla en SQL Server" class="bounded-media">
-                        <span class="fallback-label">Base de Datos: sql_tabla.png</span>
+                         <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
                         <h3>Estructura Relacional en SQL Server</h3>
-                        <p>Esquema de la entidad <code>textura</code> dentro del catálogo de datos <code>texturas</code>. Almacena las firmas cromáticas mediante el registro indexado del descriptor de la muestra (<code>tipo_textura</code>) y tres campos enteros normalizados destinados a resguardar las magnitudes discretas de los canales R, G y B.</p>
+                        <p>Esquema de la entidad <code>textura</code> dentro del catálogo de datos <code>texturas</code>. Almacena la textura mediante el registro (<code>tipo_textura</code>) y tres campos destinados a resguardar las magnitudes discretas de los canales R, G y B.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/algoritmo_distancia.jpg" alt="Cálculo de Distancia de Color" class="bounded-media">
-                        <span class="fallback-label">Lógica: algoritmo_distancia.png</span>
+                         <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
                         <h3>Muestreo Convolucional de Vecindades</h3>
@@ -68,11 +64,11 @@
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/datagrid_actualizado.jpg" alt="DataGridView Refrescado" class="bounded-media">
-                        <span class="fallback-label">Persistencia: datagrid_actualizado.png</span>
+                         <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
                         <h3>Arquitectura Segura y Enlace de Datos</h3>
-                        <p>Sincronización del entorno mediante una arquitectura desconectada con <code>SqlDataAdapter</code> y <code>DataTable</code>. La persistencia implementa consultas parametrizadas robustas que inmunizan el canal de datos contra vulnerabilidades de inyección de código, refrescando de manera reactiva el búfer de la interfaz gráfica tras cada confirmación transaccional.</p>
+                        <p>Sincronización del entorno mediante una arquitectura desconectada con <code>SqlDataAdapter</code> y <code>DataTable</code>. La persistencia implementa consultas parametrizadas, refrescando de manera reactiva el búfer de la interfaz gráfica tras cada confirmación de textura.</p>
                     </div>
                 </div>
 
@@ -84,7 +80,7 @@
         <section class="code-analysis-section">
             <div class="section-title-wrapper">
                 <h2>Implementación de la Lógica del Backend (C#)</h2>
-                <p>Dado que este módulo requiere una conexión activa a un servidor relacional con seguridad integrada de Windows (<code>Trusted_Connection</code>), la ejecución en tiempo real desde la capa web está deshabilitada por aislamiento de red. A continuación, se expone el bloque de código fuente C# estructurado por el autor para este propósito:</p>
+                <p>Dado que este módulo requiere una conexión activa a un servidor relacional con seguridad integrada de Windows (<code>Trusted_Connection</code>), la ejecución en tiempo real desde la capa web está deshabilitada por aislamiento de red. A continuación, se expone el bloque de código fuente C# estructurado por el integrante para este propósito:</p>
             </div>
 
             <div class="code-block-container">
@@ -299,7 +295,10 @@ namespace Deteccion_Texturas_Practica
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+    <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="zonas.js"></script>
 </body>
 </html>

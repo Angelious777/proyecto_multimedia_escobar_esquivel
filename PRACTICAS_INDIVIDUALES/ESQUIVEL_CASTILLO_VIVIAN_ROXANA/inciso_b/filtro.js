@@ -2,7 +2,44 @@ window.addEventListener("DOMContentLoaded", () => {
     initModalManagers();
     initSimulationEngine();
     initVideoWidgetController();
+    initVideoWidgetDragAndResize(); 
+    initLightbox();
 });
+
+function initLightbox() {
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
+    if (!lightbox || !lightboxImg || !lightboxClose) return;
+
+    const images = document.querySelectorAll(".bounded-media");
+
+    images.forEach(img => {
+        img.addEventListener("click", () => {
+            lightbox.style.display = "flex";
+            lightboxImg.src = img.src;
+            document.body.style.overflow = "hidden"; 
+        });
+    });
+
+    const closeLightbox = () => {
+        lightbox.style.display = "none";
+        lightboxImg.src = ""; 
+        document.body.style.overflow = "auto"; 
+    };
+
+    lightboxClose.addEventListener("click", closeLightbox);
+    
+    lightbox.addEventListener("click", (e) => {
+        if (e.target === lightbox) closeLightbox();
+    });
+
+    document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && lightbox.style.display === "flex") {
+            closeLightbox();
+        }
+    });
+}
 
 function initModalManagers() {
     const triggerCode = document.getElementById("trigger-modal-code");
@@ -105,6 +142,7 @@ function initSimulationEngine() {
             output[i] = input[i];
         }
 
+        // Simulación de Filtro de Convolución (Caja/Media)
         for (let x = 1; x < w - 1; x++) {
             for (let y = 1; y < h - 1; y++) {
                 let sumR = 0;
@@ -161,89 +199,94 @@ function initVideoWidgetController() {
     }
 }
 
-const widgetFrame = document.getElementById('video-widget-frame');
-const widgetHeader = document.getElementById('video-widget-header');
+// Encapsulado seguro para evitar errores de carga en elementos flotantes
+function initVideoWidgetDragAndResize() {
+    const widgetFrame = document.getElementById('video-widget-frame');
+    const widgetHeader = document.getElementById('video-widget-header');
 
-let mX = 0, mY = 0, wW = 0, wH = 0, wL = 0, wT = 0;
+    if (!widgetFrame || !widgetHeader) return; // Si no existen en la página actual, salta la función pacíficamente
 
-widgetHeader.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.video-widget-close')) return;
-    
-    const rect = widgetFrame.getBoundingClientRect();
-    widgetFrame.style.left = `${rect.left}px`;
-    widgetFrame.style.top = `${rect.top}px`;
-    widgetFrame.style.bottom = 'auto';
-    widgetFrame.style.right = 'auto';
-    
-    mX = e.clientX;
-    mY = e.clientY;
-    wL = rect.left;
-    wT = rect.top;
+    let mX = 0, mY = 0, wW = 0, wH = 0, wL = 0, wT = 0;
 
-    const onMouseMove = (ev) => {
-        const dx = ev.clientX - mX;
-        const dy = ev.clientY - mY;
-        widgetFrame.style.left = `${wL + dx}px`;
-        widgetFrame.style.top = `${wT + dy}px`;
-    };
-
-    const onMouseUp = () => {
-        document.removeEventListener('mousemove', onMouseMove);
-        document.removeEventListener('mouseup', onMouseUp);
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
-});
-
-widgetFrame.querySelectorAll('.resizer').forEach(resizer => {
-    resizer.addEventListener('mousedown', (e) => {
-        e.preventDefault();
+    widgetHeader.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.video-widget-close')) return;
         
-        const mode = e.target.className.split(' ')[1];
         const rect = widgetFrame.getBoundingClientRect();
-        
         widgetFrame.style.left = `${rect.left}px`;
         widgetFrame.style.top = `${rect.top}px`;
         widgetFrame.style.bottom = 'auto';
         widgetFrame.style.right = 'auto';
-
+        
         mX = e.clientX;
         mY = e.clientY;
-        wW = rect.width;
-        wH = rect.height;
         wL = rect.left;
         wT = rect.top;
 
-        const onMouseMoveResize = (ev) => {
+        const onMouseMove = (ev) => {
             const dx = ev.clientX - mX;
             const dy = ev.clientY - mY;
-
-            if (mode === 'br') {
-                widgetFrame.style.width = `${wW + dx}px`;
-                widgetFrame.style.height = `${wH + dy}px`;
-            } else if (mode === 'bl') {
-                widgetFrame.style.width = `${wW - dx}px`;
-                widgetFrame.style.height = `${wH + dy}px`;
-                widgetFrame.style.left = `${wL + dx}px`;
-            } else if (mode === 'tr') {
-                widgetFrame.style.width = `${wW + dx}px`;
-                widgetFrame.style.height = `${wH - dy}px`;
-                widgetFrame.style.top = `${wT + dy}px`;
-            } else if (mode === 'tl') {
-                widgetFrame.style.width = `${wW - dx}px`;
-                widgetFrame.style.height = `${wH - dy}px`;
-                widgetFrame.style.left = `${wL + dx}px`;
-                widgetFrame.style.top = `${wT + dy}px`;
-            }
+            widgetFrame.style.left = `${wL + dx}px`;
+            widgetFrame.style.top = `${wT + dy}px`;
         };
 
-        const onMouseUpResize = () => {
-            document.removeEventListener('mousemove', onMouseMoveResize);
-            document.removeEventListener('mouseup', onMouseUpResize);
+        const onMouseUp = () => {
+            document.removeEventListener('mousemove', onMouseMove);
+            document.removeEventListener('mouseup', onMouseUp);
         };
 
-        document.addEventListener('mousemove', onMouseMoveResize);
-        document.addEventListener('mouseup', onMouseUpResize);
+        document.addEventListener('mousemove', onMouseMove);
+        document.addEventListener('mouseup', onMouseUp);
     });
-});
+
+    widgetFrame.querySelectorAll('.resizer').forEach(resizer => {
+        resizer.addEventListener('mousedown', (e) => {
+            e.preventDefault();
+            
+            const mode = e.target.className.split(' ')[1];
+            const rect = widgetFrame.getBoundingClientRect();
+            
+            widgetFrame.style.left = `${rect.left}px`;
+            widgetFrame.style.top = `${rect.top}px`;
+            widgetFrame.style.bottom = 'auto';
+            widgetFrame.style.right = 'auto';
+
+            mX = e.clientX;
+            mY = e.clientY;
+            wW = rect.width;
+            wH = rect.height;
+            wL = rect.left;
+            wT = rect.top;
+
+            const onMouseMoveResize = (ev) => {
+                const dx = ev.clientX - mX;
+                const dy = ev.clientY - mY;
+
+                if (mode === 'br') {
+                    widgetFrame.style.width = `${wW + dx}px`;
+                    widgetFrame.style.height = `${wH + dy}px`;
+                } else if (mode === 'bl') {
+                    widgetFrame.style.width = `${wW - dx}px`;
+                    widgetFrame.style.height = `${wH + dy}px`;
+                    widgetFrame.style.left = `${wL + dx}px`;
+                } else if (mode === 'tr') {
+                    widgetFrame.style.width = `${wW + dx}px`;
+                    widgetFrame.style.height = `${wH - dy}px`;
+                    widgetFrame.style.top = `${wT + dy}px`;
+                } else if (mode === 'tl') {
+                    widgetFrame.style.width = `${wW - dx}px`;
+                    widgetFrame.style.height = `${wH - dy}px`;
+                    widgetFrame.style.left = `${wL + dx}px`;
+                    widgetFrame.style.top = `${wT + dy}px`;
+                }
+            };
+
+            const onMouseUpResize = () => {
+                document.removeEventListener('mousemove', onMouseMoveResize);
+                document.removeEventListener('mouseup', onMouseUpResize);
+            };
+
+            document.addEventListener('mousemove', onMouseMoveResize);
+            document.addEventListener('mouseup', onMouseUpResize);
+        });
+    });
+}

@@ -2,7 +2,7 @@
 
 :root {
     --bg-color: #f6f5f2;
-    --text-color: #1a1a1a;
+    --text-color: #585858;
     --text-muted: #555555;
     --border-color: #1a1a1a;
     --accent-color: #8b3a3a; /* Color granate/vino distinguido para diferenciar el trabajo de Angel */
@@ -135,7 +135,8 @@ body {
     width: 100%;
     height: auto;
     background-color: rgba(26, 26, 26, 0.02);
-    border: 1px dashed var(--border-color);
+    color: transparent;
+    font-size: 0;
     border-radius: var(--radius-smooth);
     display: flex;
     align-items: center;
@@ -143,16 +144,62 @@ body {
     overflow: hidden;
 }
 
-/* MODIFICADO: La imagen dicta el tamaño del contenedor manteniendo sus proporciones nativas */
 .bounded-media {
     width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-    z-index: 2;
+    height: auto; 
+    display: block; 
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
 
-/* ELIMINADO: Se removió por completo la regla .capture-card:hover .bounded-media que causaba el efecto de escala */
+.bounded-media:hover {
+    opacity: 0.85; 
+}
+
+.lightbox-modal {
+    display: none; 
+    position: fixed;
+    z-index: 9999; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85); 
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px); 
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.25s ease; 
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.lightbox-close:hover {
+    color: #ff5f56; 
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 
 .fallback-label {
     position: absolute;

@@ -1,11 +1,11 @@
 /* ESTILOS GLOBALES - PORTAFOLIO MULTIMEDIA UMSA
 */
 
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;700;900&family=Space+Grotesk:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght=300;400;500;700;900&family=Space+Grotesk:wght=400;500;600;700&display=swap');
 
 :root {
     --bg-color: #f6f5f2;          /* Fondo off-white/crema suave de la imagen */
-    --text-color: #1a1a1a;        /* Gris oscuro profundo (sin usar negro puro) */
+    --text-color: #585858;        /* Gris oscuro profundo (sin usar negro puro) */
     --text-muted: #555555;        /* Gris medio para textos secundarios */
     --border-color: #1a1a1a;      /* Bordes definidos y delgados */
     --accent-color: #8c2f1e;      /* Tono lacado sutil tradicional */

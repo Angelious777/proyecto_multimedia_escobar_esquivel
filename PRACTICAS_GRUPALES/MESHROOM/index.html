@@ -7,6 +7,18 @@
     <link rel="stylesheet" href="./grupal_meshroom.css">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+    <style>
+        /* Regla opcional para asegurar que las instrucciones se lean bien sobre el fondo negro */
+        #integrante-3d-model {
+            background-color: #000000;
+        }
+        #custom-hint {
+            color: #ffffff;
+            background-color: rgba(0, 0, 0, 0.6); /* Un fondo semitransparente por si acaso */
+            padding: 8px 12px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
 
@@ -29,7 +41,7 @@
         <section class="gallery-captures-section">
             <div class="section-title-wrapper">
                 <h2>Pipeline de Captura y Procesamiento</h2>
-                <p>Flujo de trabajo para la digitalización tridimensional: Adquisición fotográfica del integrante del equipo, cálculo de correspondencias en Meshroom y exportación de la malla texturizada.</p>
+                <p>Proceso seguido para obtener un modelo 3D a partir de fotografías utilizando Meshroom.</p>
             </div>
 
             <div class="collage-grid">
@@ -37,62 +49,64 @@
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/meshroom_captura_fotos.png" alt="Sesión fotográfica del integrante" class="bounded-media">
-                        <span class="fallback-label">Muestreo: meshroom_captura_fotos.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>1. Adquisición y Muestreo Fotográfico</h3>
-                        <p>Sesión de captura controlada de un integrante del equipo. Se tomaron ráfagas de fotografías en un ángulo de 360 grados con un solapamiento mayor al 60% entre imágenes, garantizando condiciones de iluminación homogéneas para evitar sombras duras de textura.</p>
+                        <h3>1. Captura de Fotografías</h3>
+                        <p>Se tomaron varias fotografías del integrante desde diferentes ángulos alrededor de la persona. Estas imágenes servirán como base para generar el modelo 3D.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/meshroom_pipeline_nodes.png" alt="Grafo de nodos en Meshroom" class="bounded-media">
-                        <span class="fallback-label">Nodos: meshroom_pipeline_nodes.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>2. Cómputo de Características y Grafo de Nodos</h3>
-                        <p>Carga del dataset fotográfico en <strong>Meshroom</strong>.  (<em>CameraInit</em>), detectando puntos característicos estables (<em>FeatureExtraction</em>) y emparejando las imágenes para resolver la orientación espacial.</p>
+                        <h3>2. Carga y Procesamiento en Meshroom</h3>
+                        <p>Las fotografías se importaron en Meshroom. El programa analiza las imágenes, identifica puntos en común y calcula la posición de cada fotografía para reconstruir la escena.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/meshroom_ejecucion.png" alt="Nube de puntos densa" class="bounded-media">
-                        <span class="fallback-label">Estructura: meshroom_dense_cloud.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>3. Proceso de Texturizacion</h3>
-                        <p>Generación de la textura (<em>DepthMap</em>). Este proceso matemático triangulariza la posición exacta en el espacio tridimensional de cada píxel correlacionado, debido a los errores que genera en un proyecto como este, se optó por eliminarlo debido a los recursos de los integrantes.</p>
+                        <h3>3. Generación de la Reconstrucción</h3>
+                        <p>Meshroom procesa la información obtenida de las fotografías para construir la forma tridimensional del modelo. Debido a las limitaciones de hardware disponibles, algunas etapas avanzadas del proceso no pudieron completarse correctamente.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/meshroom_texturing.png" alt="Proceso de Texturizado" class="bounded-media">
-                        <span class="fallback-label">Mesh: meshroom_texturing.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>4. Meshing, Texturizado y Exportación .OBJ</h3>
-                        <p>Fase final del procesamiento. El nodo <em>Meshing</em> une la formación de las imagenes. <em>Texturing</em> proyecta las fotos originales sobre la malla. El resultado se exporta en formato <code>.obj</code> con sus mapas de texturas difusas adjuntos.</p>
+                        <h3>4. Exportación del Modelo</h3>
+                        <p>Una vez finalizado el procesamiento, el modelo puede exportarse en formato <code>.obj</code> para ser utilizado posteriormente en otros programas de modelado o motores gráficos.</p>
                     </div>
                 </div>
 
             </div>
         </section>
 
+
     </div>
 
     <div class="floating-viewer-container" id="meshroom-widget-frame">
         <div class="viewer-widget-header" id="meshroom-widget-header">
-            <span><i class="ri-user-voice-line"></i> Manipulación de Modelo 3D — Vista de Examen</span>
+            <span><i class="ri-user-voice-line"></i> Manipulación de Modelo 3D</span>
             <button class="viewer-widget-close" id="close-meshroom-widget"><i class="ri-close-line"></i></button>
         </div>
         <div class="viewer-widget-viewport">
             
             <model-viewer 
                 id="integrante-3d-model"
-                src="../assets/modelos/integrante_meshroom.glb" 
+                src="./assets/modelo/texturedMesh.glb" 
+                style="background-color: #000000; width: 100%; height: 100%; display: block;"
                 camera-controls 
                 auto-rotate 
                 interaction-prompt="auto"
@@ -111,7 +125,10 @@
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+     <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="grupal_meshroom.js"></script>
 </body>
 </html>

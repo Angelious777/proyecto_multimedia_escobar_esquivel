@@ -6,7 +6,7 @@
 
 :root {
     --bg-color: #f6f5f2;          /* Fondo off-white/crema suave */
-    --text-color: #1a1a1a;        /* Gris oscuro profundo (sin negro puro) */
+    --text-color: #585858;        /* Gris oscuro profundo (sin negro puro) */
     --text-muted: #555555;        /* Gris medio para textos secundarios */
     --border-color: #1a1a1a;      /* Bordes definidos elegantes */
     --accent-color: #8c2f1e;      /* Tono lacado sutil tradicional */
@@ -44,7 +44,6 @@ body {
 
 /* CONTENEDOR EDITORIAL GENERAL */
 .editorial-container {
-    max-width: 1200px;
     margin: 0;
     padding: 3rem 2rem;
 }
@@ -205,32 +204,93 @@ body {
 }
 
 /* CONTENEDOR ADAPTATIVO AL TAMAÑO ORIGINAL DE LAS IMÁGENES */
+
 .media-placeholder-frame {
     position: relative;
     width: 100%;
-    height: auto; 
-    min-height: 200px; 
+    max-height: 340px; 
+    
     background-color: rgba(26, 26, 26, 0.02);
-    border: 1px dashed var(--border-color);
+    color: transparent;
+    font-size: 0;
     border-radius: var(--radius-smooth);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
+    display: block; 
+
+    overflow-y: auto;  
+    overflow-x: hidden; 
 }
 
-[data-theme="dark"] .media-placeholder-frame {
-    background-color: rgba(229, 229, 229, 0.02);
-}
-
-/* EFECTO DE ESCALADO INTERACTIVO SUTIL (HOVER) */
 .bounded-media {
     width: 100%;
     height: auto; 
+    display: block; 
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.bounded-media:hover {
+    opacity: 0.85; 
+}
+
+.lightbox-modal {
+    display: none; 
+    position: fixed;
+    z-index: 9999; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85); 
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px); 
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
     object-fit: contain;
-    z-index: 2;
-    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform; 
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.25s ease; /* Animación suave de apertura */
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.lightbox-close:hover {
+    color: #ff5f56; 
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
+.media-placeholder-frame::-webkit-scrollbar {
+    width: 5px;
+}
+
+.media-placeholder-frame::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.media-placeholder-frame::-webkit-scrollbar-thumb {
+    background-color: rgba(26, 26, 26, 0.2);
+    border-radius: var(--radius-smooth);
+}
+
+[data-theme="dark"] .media-placeholder-frame::-webkit-scrollbar-thumb {
+    background-color: rgba(229, 229, 229, 0.2);
 }
 
 .fallback-label {

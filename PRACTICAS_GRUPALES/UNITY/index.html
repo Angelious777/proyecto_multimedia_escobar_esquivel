@@ -28,7 +28,7 @@
         <section class="gallery-captures-section">
             <div class="section-title-wrapper">
                 <h2>Pipeline de Configuración, Rigging y Control 3D</h2>
-                <p>Cronología del desarrollo técnico: Importación de recursos poliédricos externos, auto-rigging, conversión al estándar biomecánico Humanoid, secuenciación en el Animator y programación del controlador de movimiento.</p>
+                <p>Proceso seguido para importar personajes, configurar animaciones y preparar su funcionamiento dentro de Unity.</p>
             </div>
 
             <div class="collage-grid">
@@ -36,66 +36,66 @@
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_assets_import.png" alt="Importación de Modelos 3D" class="bounded-media">
-                        <span class="fallback-label">Recursos: grupal_assets_import.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>1. Adquisición e Importación de Mallas 3D</h3>
-                        <p>Fase inicial del proyecto. Selección y descarga de un par de personajes tridimensionales optimizados desde repositorios web especializados. Los archivos se estructuran ordenadamente en la carpeta <code>Assets</code> de Unity, mapeando texturas, materiales y mallas poligonales iniciales de forma correcta.</p>
+                        <h3>1. Importación de Modelos 3D</h3>
+                        <p>Se descargaron los personajes 3D y se incorporaron al proyecto de Unity. También se verificó que las texturas y materiales se cargaran correctamente.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_mixamo_rig.png" alt="Auto-Rigging en Mixamo" class="bounded-media">
-                        <span class="fallback-label">Mixamo: grupal_mixamo_rig.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>2. Auto-Rigging y Animaciones con Mixamo</h3>
-                        <p>Carga de los personajes en la plataforma Adobe Mixamo para el procesamiento de la estructura ósea virtual. Se posicionaron los marcadores anatómicos clave (mentón, muñecas, codos, rodillas e ingle) para calcular el pesado de vértices automático y exportar las animaciones cíclicas de locomoción (Idle, Walk, Run).</p>
+                        <h3>2. Configuración en Mixamo</h3>
+                        <p>Los modelos fueron cargados en Mixamo para generar automáticamente el esqueleto y descargar las animaciones necesarias para el proyecto.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_humanoid_config.png" alt="Configuración Rig Humanoid" class="bounded-media">
-                        <span class="fallback-label">Rigging: grupal_humanoid_config.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>3. Retargeting y Configuración Humanoid</h3>
-                        <p>Selección del Rig en el inspector de Unity y cambio del tipo de animación a <strong>Humanoid</strong>. Este paso crítico le indica al motor de renderizado que el esqueleto posee una topología anatómica humana compatible con el sistema de retargeting universal de Unity.</p>
+                        <h3>3. Configuración Humanoid</h3>
+                        <p>En Unity se cambió el tipo de animación a <strong>Humanoid</strong> para que el personaje pudiera utilizar correctamente las animaciones importadas.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_skeleton_review.png" alt="Revisión del Esqueleto" class="bounded-media">
-                        <span class="fallback-label">Esqueleto: grupal_skeleton_review.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>4. Auditoría y Mapeo Óseo (Avatar)</h3>
-                        <p>Apertura de la herramienta <em>Configure Avatar</em> para auditar visualmente los nodos del esqueleto. Se verifica que cada hueso virtual (fémur, columna, extremidades, articulaciones) esté correctamente enlazado con los nodos del modelo para evitar deformaciones asimétricas de la malla durante la ejecución.</p>
+                        <h3>4. Revisión del Esqueleto</h3>
+                        <p>Se verificó que los huesos del personaje estuvieran correctamente asignados para evitar errores o deformaciones durante las animaciones.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_animator_controller.png" alt="Animator Controller State Machine" class="bounded-media">
-                        <span class="fallback-label">Máquina de Estados: grupal_animator_controller.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>5. Orquestación en la Máquina de Estados (Animator)</h3>
-                        <p>Creación del <strong>Animator Controller</strong> y asignación a los personajes. Se estructuró tres <em>Animator Controller</em> para tres diferentes tipos de baile, que fueron asociados en pares de personajes.</p>
+                        <h3>5. Configuración del Animator</h3>
+                        <p>Se crearon los controladores de animación y se asignaron diferentes bailes a los personajes para utilizarlos dentro de la escena.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/grupal_movement_controller.png" alt="Controlador de Movimiento e Inputs" class="bounded-media">
-                        <span class="fallback-label">Programación: grupal_movement_controller.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>6. Implementación del Controlador de Movimiento</h3>
-                        <p>Se crea un nuevo componente en el elemento de nuestra escena indicando Animator > Animator Controller y arrastrando el personaje junto con el controlador del baile elegido.</p>
+                        <h3>6. Integración Final</h3>
+                        <p>Se asignó el Animator Controller al personaje dentro de Unity, vinculando el modelo con la animación seleccionada para completar su funcionamiento en la escena.</p>
                     </div>
                 </div>
 

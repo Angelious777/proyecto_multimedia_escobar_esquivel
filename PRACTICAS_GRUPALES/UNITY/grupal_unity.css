@@ -2,7 +2,7 @@
 
 :root {
     --bg-color: #f6f5f2;
-    --text-color: #1a1a1a;
+    --text-color: #585858;
     --text-muted: #555555;
     --border-color: #1a1a1a;
     --accent-color: #1a446c; /* Color azul institucional para diferenciar el bloque grupal */
@@ -140,24 +140,24 @@ body {
     grid-column: span 2;
 }
 
-/* MARCO CONTENEDOR OPTIMIZADO AL TAMAÑO ORIGINAL CON HOVER */
+/* MARCO CONTENEDOR OPTIMIZADO AL TAMAÑO ORIGINAL */
 .media-placeholder-frame {
     position: relative;
     width: 100%;
-    height: auto;
-    min-height: 220px;
+    height: auto;       
+    min-height: 0;          
     background-color: rgba(26, 26, 26, 0.02);
-    border: 1px dashed var(--border-color);
+    color: transparent;
+    font-size: 0;
     border-radius: var(--radius-smooth);
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    display: block;         
     overflow: hidden;
 }
 
 .bounded-media {
     width: 100%;
     height: auto;
+    display: block;        
     object-fit: contain;
     z-index: 2;
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);

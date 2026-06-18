@@ -28,59 +28,51 @@
 
         <!-- SECCIÓN DE DETALLES DEL PROCESO Y CAPTURAS -->
         <section class="gallery-captures-section">
-            <div class="section-title-wrapper">
-                <h2>Pipeline de Procesamiento y Almacenamiento</h2>
-                <p>Análisis del comportamiento del software: desde el mapeo bidimensional de coordenadas en el PictureBox hasta la clasificación Euclidiana/Manhattan de vectores RGB guardados en el DBMS.</p>
-            </div>
-
-            <!-- COLLAGE EDITORIAL DE 3 COLUMNAS ASIMÉTRICAS -->
+            
             <div class="collage-grid">
                 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame tall-frame">
                         <img src="./assets/winforms_interfaz.png" alt="Interfaz Gráfica en C#" class="bounded-media">
-                        <span class="fallback-label">Entorno C#: winforms_interfaz.png</span>
                     </div>
                     <div class="capture-description">
-                        <h3>Interfaz de Usuario y Mapeo de Píxeles</h3>
-                        <p>Diseño del formulario en Windows Forms. Incorpora un control PictureBox adaptativo, cuadros de texto para los componentes cromáticos (R, G, B), un DataGridView enlazado dinámicamente y etiquetas de estado. Al hacer clic, el método matemático reescala las dimensiones relativas del puntero del mouse a las dimensiones reales del mapa de bits original.</p>
+                        <h3>Interfaz de Usuario</h3>
+                        <p>Formulario desarrollado en Windows Forms. Incluye un <code>PictureBox</code> para mostrar la imagen, cuadros de texto para visualizar los valores RGB y una tabla para registrar la información obtenida al seleccionar un punto de la imagen.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/sql_tabla.png" alt="Tabla en SQL Server" class="bounded-media">
-                        <span class="fallback-label">Base de Datos: sql_tabla.png</span>
                     </div>
                     <div class="capture-description">
-                        <h3>Estructura en SQL Server</h3>
-                        <p>Esquema de la tabla <code>reconocimiento_puntos</code> dentro de la base de datos <code>bd_Texturas</code>. Muestra los registros guardados con sus respectivas claves primarias, nombres descriptivos del punto, el tipo de zona asignado y las tres columnas numéricas dedicadas a los canales de color.</p>
+                        <h3>Tabla en SQL Server</h3>
+                        <p>Vista de la tabla <code>reconocimiento_puntos</code> donde se almacenan los datos registrados. Se guardan el nombre del punto, el tipo de zona y los valores de color RGB obtenidos desde la imagen.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/algoritmo_distancia.png" alt="Cálculo de Distancia de Color" class="bounded-media">
-                        <span class="fallback-label">Lógica: algoritmo_distancia.png</span>
                     </div>
                     <div class="capture-description">
-                        <h3>Clasificación por Distancia Cromática</h3>
-                        <p>Visualización del flujo del bucle del DataReader. El algoritmo calcula de manera iterativa el diferencial absoluto de cada canal de color frente a las muestras previamente entrenadas. Al hallar el menor residuo matemático (la menor distancia), clasifica la zona del píxel actual de forma exacta.</p>
+                        <h3>Comparación de Colores</h3>
+                        <p>Proceso utilizado para identificar la zona de un píxel. El sistema compara los valores RGB seleccionados con los registros almacenados en la base de datos y determina cuál es el más parecido.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/datagrid_actualizado.png" alt="DataGridView Refrescado" class="bounded-media">
-                        <span class="fallback-label">Persistencia: datagrid_actualizado.png</span>
                     </div>
                     <div class="capture-description">
-                        <h3>Sincronización de Datos en Tiempo Real</h3>
-                        <p>Muestra del formulario tras ejecutar una inserción de datos exitosa. Se observa el refresco automatizado del componente visual mediante un SqlDataAdapter, lo que permite auditar visualmente que la tupla de datos se ha insertado correctamente en el motor local sin perder coherencia transaccional.</p>
+                        <h3>Actualización de Datos</h3>
+                        <p>Resultado después de registrar un nuevo punto. La tabla se actualiza automáticamente para mostrar la información guardada en la base de datos, permitiendo verificar que el registro se realizó correctamente.</p>
                     </div>
                 </div>
 
             </div>
+
         </section>
 
         <hr class="section-divider">
@@ -212,7 +204,10 @@ namespace reconocimiento_zonas
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+    <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="zonas.js"></script>
 </body>
 </html>

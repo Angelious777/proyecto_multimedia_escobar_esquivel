@@ -1,23 +1,14 @@
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght=300;400;500;700;900&family=Space+Grotesk:wght=400;500;600;700&display=swap');
 
 :root {
     --bg-color: #f6f5f2;
-    --text-color: #1a1a1a;
+    --text-color: #585858;
     --text-muted: #555555;
     --border-color: #1a1a1a;
-    --accent-color: #8c2f1e;
+    --accent-color: #8b3a3a; /* Color granate/vino distinguido para diferenciar el trabajo de Angel */
     --card-bg: #fcfbfa;
     --font-square: 'Space Grotesk', 'Noto Sans JP', sans-serif;
     --radius-smooth: 6px;
-}
-
-[data-theme="dark"] {
-    --bg-color: #121212;
-    --text-color: #e5e5e5;
-    --text-muted: #aaaaaa;
-    --border-color: #444444;
-    --accent-color: #e65c40;
-    --card-bg: #1a1a1a;
 }
 
 * {
@@ -47,10 +38,6 @@ body {
     margin-bottom: 3rem;
 }
 
-[data-theme="dark"] .editorial-header {
-    border-bottom: 1px solid rgba(229, 229, 229, 0.08);
-}
-
 .meta-context {
     font-size: 0.7rem;
     text-transform: uppercase;
@@ -71,7 +58,8 @@ body {
 
 .action-trigger-bar {
     display: flex;
-    gap: 1.25rem;
+    align-items: center;
+    gap: 1.5rem;
     margin-bottom: 4rem;
 }
 
@@ -86,9 +74,9 @@ body {
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.05em;
-    border: 1px solid var(--border-color);
+    border: 1px solid var(--accent-color);
     background-color: var(--card-bg);
-    color: var(--text-color);
+    color: var(--accent-color);
     border-radius: var(--radius-smooth);
     cursor: pointer;
     box-shadow: 0 2px 0px rgba(26, 26, 26, 0.05);
@@ -96,20 +84,10 @@ body {
 }
 
 .action-btn:hover {
-    background-color: var(--text-color);
-    color: var(--bg-color);
-    transform: translateY(-1px);
-    box-shadow: 0 4px 8px rgba(26, 26, 26, 0.08);
-}
-
-.action-btn-accent {
-    border-color: var(--accent-color);
-    color: var(--accent-color);
-}
-
-.action-btn-accent:hover {
     background-color: var(--accent-color);
     color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(139, 58, 58, 0.15);
 }
 
 .section-title-wrapper {
@@ -130,7 +108,7 @@ body {
     line-height: 1.6;
 }
 
-/* SISTEMA COLLAGE ASIMÉTRICO DE 3 COLUMNAS */
+/* COLLAGE GRID */
 .collage-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -144,22 +122,21 @@ body {
     border: 1px solid rgba(26, 26, 26, 0.08);
     border-radius: var(--radius-smooth);
     padding: 1.25rem;
-}
-
-[data-theme="dark"] .capture-card {
-    border: 1px solid rgba(229, 229, 229, 0.08);
+    overflow: hidden;
 }
 
 .capture-card.span-2 {
     grid-column: span 2;
 }
 
+/* MODIFICADO: Ahora el marco se adapta por completo a la altura nativa de la imagen */
 .media-placeholder-frame {
     position: relative;
     width: 100%;
-    height: 280px;
+    height: auto;
     background-color: rgba(26, 26, 26, 0.02);
-    border: 1px dashed var(--border-color);
+    color: transparent;
+    font-size: 0;
     border-radius: var(--radius-smooth);
     display: flex;
     align-items: center;
@@ -167,20 +144,62 @@ body {
     overflow: hidden;
 }
 
-.media-placeholder-frame.tall-frame {
-    height: 320px;
-}
-
-[data-theme="dark"] .media-placeholder-frame {
-    background-color: rgba(229, 229, 229, 0.02);
-}
-
 .bounded-media {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 2;
+    height: auto; 
+    display: block; 
+    cursor: pointer;
+    transition: opacity 0.2s ease;
 }
+
+.bounded-media:hover {
+    opacity: 0.85; 
+}
+
+.lightbox-modal {
+    display: none; 
+    position: fixed;
+    z-index: 9999; 
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.85); 
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(4px); 
+}
+
+.lightbox-content {
+    max-width: 90%;
+    max-height: 85%;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+    animation: zoomIn 0.25s ease; 
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 20px;
+    right: 30px;
+    color: #fff;
+    font-size: 40px;
+    font-weight: bold;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+}
+
+.lightbox-close:hover {
+    color: #ff5f56; 
+}
+
+@keyframes zoomIn {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+}
+
 
 .fallback-label {
     position: absolute;
@@ -194,6 +213,7 @@ body {
 
 .capture-description {
     margin-top: 1.25rem;
+    z-index: 3;
 }
 
 .capture-description h3 {
@@ -210,14 +230,14 @@ body {
     text-align: justify;
 }
 
-/* VENTANA EMERGENTE REDIMENSIONABLE Y ADAPTADA A UNITY WEBGL */
+/* FLOATING WIDGET WEBGL */
 .floating-video-container {
     position: fixed;
     bottom: 3rem;
     right: 3rem;
-    width: 480px;
-    height: 340px;
-    min-width: 320px;
+    width: 500px;
+    height: 350px;
+    min-width: 340px;
     min-height: 240px;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
@@ -269,9 +289,6 @@ body {
     flex: 1;
     min-height: 0;
     background-color: #000000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     border-radius: 0 0 var(--radius-smooth) var(--radius-smooth);
     overflow: hidden;
 }
@@ -289,7 +306,7 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(26, 26, 26, 0.85);
+    background-color: rgba(26, 26, 26, 0.88);
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -302,22 +319,16 @@ body {
     font-weight: 700;
     cursor: pointer;
     backdrop-filter: blur(4px);
-    transition: background-color 0.2s ease;
     z-index: 10;
 }
 
-.video-viewport-overlay:hover {
-    background-color: rgba(26, 26, 26, 0.95);
-}
-
+/* RESIZERS */
 .resizer {
     position: absolute;
     width: 14px;
     height: 14px;
     z-index: 4002;
-    background: transparent;
 }
-
 .resizer.tl { top: -7px; left: -7px; cursor: nwse-resize; }
 .resizer.tr { top: -7px; right: -7px; cursor: nesw-resize; }
 .resizer.bl { bottom: -7px; left: -7px; cursor: nesw-resize; }

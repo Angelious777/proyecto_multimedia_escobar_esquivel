@@ -23,58 +23,55 @@
         </section>
 
         <section class="gallery-captures-section">
-            <div class="section-title-wrapper">
-                <h2>Pipeline de Producción Multimedia</h2>
-                <p>Cronología del desarrollo: Captura de voz cruda, clonación e inferencia tímbrica mediante Applio (Google Colab) con modelos de Hugging Face y secuenciación coreográfica en Unity.</p>
-            </div>
 
             <div class="collage-grid">
                 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame tall-frame">
                         <img src="./assets/rvc_procesamiento.jpg" alt="Procesamiento de Audio en Applio" class="bounded-media">
-                        <span class="fallback-label">Entorno Applio: rvc_procesamiento.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>1. Grabación Base y Extracción desde Hugging Face</h3>
-                        <p>Fase inicial del proyecto. Se procedió con la captura analógica grabando la voz propia interpretando el tema infantil "La Vaca Lola". Paralelamente, se exploraron repositorios de inteligencia artificial en <strong>Hugging Face</strong> para localizar y descargar el dataset entrenado (.zip) con la voz del artista famoso elegido.</p>
+                        <h3>1. Grabación y Obtención del Modelo de Voz</h3>
+                        <p>Primera etapa del proyecto. Se grabó una interpretación propia de la canción "La Vaca Lola" y posteriormente se descargó desde Hugging Face un modelo de voz entrenado del artista seleccionado para realizar la conversión.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_assets.jpg" alt="Inferencia de Voz en Applio" class="bounded-media">
-                        <span class="fallback-label">Applio Colab: applio_inferencia.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>2. Conversión de Voz e Inferencia (Applio)</h3>
-                        <p>Vinculación de la plataforma de síntesis neuronal <strong>Applio</strong> con un cuaderno interactivo de <strong>Google Colab</strong>. Se cargó el audio cantado y se ejecutó el algoritmo de conversión de voz (RVC), procesando las frecuencias originales para transponerlas con precisión matemática hacia la voz del famoso sin perder la métrica rítmica.</p>
+                        <h3>2. Conversión de Voz con Applio</h3>
+                        <p>Se cargó la grabación en Applio utilizando Google Colab y se aplicó el modelo de voz descargado. El resultado fue un nuevo audio que conserva la melodía original, pero con la voz del artista elegido.</p>
                     </div>
                 </div>
 
                 <div class="capture-card">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_animator.jpg" alt="Importación de Pistas en Unity" class="bounded-media">
-                        <span class="fallback-label">Assets Unity: unity_assets_load.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>3. Mapeo de Pistas y Assets 3D</h3>
-                        <p>Estructuración del entorno multimedia dentro del motor de desarrollo. El archivo de audio `.wav` renderizado por la IA se importó a la carpeta de recursos de Unity, configurando el componente <code>AudioSource</code> y preparando los avatares tridimensionales encargados de reaccionar dinámicamente al fondo musical.</p>
+                        <h3>3. Importación del Audio en Unity</h3>
+                        <p>El archivo de audio generado se importó al proyecto de Unity. También se prepararon los modelos 3D y se configuró el componente <code>AudioSource</code> para reproducir la canción dentro de la escena.</p>
                     </div>
                 </div>
 
                 <div class="capture-card span-2">
                     <div class="media-placeholder-frame">
                         <img src="./assets/unity_coreografia.jpg" alt="Sincronización Rítmica" class="bounded-media">
-                        <span class="fallback-label">Línea de Tiempo: unity_timeline.png</span>
+                        <span class="fallback-label"></span>
                     </div>
                     <div class="capture-description">
-                        <h3>4. Sincronización Coreográfica y Animación Final</h3>
-                        <p>Orquestación en la línea de tiempo de Unity. Haciendo uso del componente <strong>Animator</strong>, se programaron las transiciones y fotogramas clave (Keyframes) del personaje 3D, acoplando sus movimientos e interacciones físicas de manera exacta con los acentos percusivos y el ritmo del cover actualizado.</p>
+                        <h3>4. Animación y Resultado Final</h3>
+                        <p>Mediante el componente <strong>Animator</strong> se añadieron las animaciones del personaje 3D. Finalmente, se sincronizaron los movimientos con la música para obtener la presentación completa del proyecto.</p>
                     </div>
                 </div>
 
             </div>
+
         </section>
 
     </div>
@@ -95,7 +92,10 @@
         <div class="resizer bl"></div>
         <div class="resizer br"></div>
     </div>
-
+    <div id="lightbox" class="lightbox-modal">
+        <span class="lightbox-close" id="lightboxClose">&times;</span>
+        <img class="lightbox-content" id="lightboxImg" src="" alt="Imagen ampliada">
+    </div>
     <script src="vaca.js"></script>
 </body>
 </html>
