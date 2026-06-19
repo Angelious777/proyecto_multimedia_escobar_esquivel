@@ -85,7 +85,14 @@
             </div>
             <div class="modal-card-body code-body-wrapper">
                 <pre><code>using System;
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
 using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace filtro_suavizado
@@ -94,12 +101,22 @@ namespace filtro_suavizado
     {
         Bitmap bmpOriginal;
         Bitmap bmpResultado;
+        Bitmap bmpBordes; 
+        public Form1()
+        {
+            InitializeComponent();
+        }
 
-        public Form1() { InitializeComponent(); }
+        private void openFileDialog1_FileOk(object sender, CancelEventArgs e)
+        {
+
+        }
 
         private void btnCargar_Click(object sender, EventArgs e)
         {
-            openFileDialog1.Filter = "Archivos Imagen|*.jpg;*.png;*.jpeg";
+            openFileDialog1.Filter = "Archivos JPG|*.jpg| Archivos PNG|*.png| Archivos JPEG|*.jpeg";
+            openFileDialog1.InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 bmpOriginal = new Bitmap(openFileDialog1.FileName);
@@ -109,33 +126,96 @@ namespace filtro_suavizado
 
         private void btnFiltrar_Click(object sender, EventArgs e)
         {
-            if (bmpOriginal == null) return;
+            if (bmpOriginal == null)
+            {
+                MessageBox.Show("Carga una imagen primero");
+                return;
+            }
 
             int anchoReal = bmpOriginal.Width;
             int altoReal = bmpOriginal.Height;
+
             bmpResultado = new Bitmap(anchoReal, altoReal);
+
+            int[,] kernelLaplace = new int[3, 3] {
+                {  0,  1,  0 },
+                {  1, -4,  1 },
+                {  0,  1,  0 }
+            };
+
+            int umbralBorde = 25;
+
+            for (int x = 0; x < anchoReal; x++)
+            {
+                for (int y = 0; y < altoReal; y++)
+                {
+                    if (x == 0 || y == 0 || x == anchoReal - 1 || y == altoReal - 1)
+                    {
+                        bmpResultado.SetPixel(x, y, bmpOriginal.GetPixel(x, y));
+                    }
+                }
+            }
 
             for (int x = 1; x < anchoReal - 1; x++)
             {
                 for (int y = 1; y < altoReal - 1; y++)
                 {
-                    int sumaR = 0, sumaG = 0, sumaB = 0;
+                    // 1. PASO: DETECCIÓN DE BORDE CON LAPLACE
+                    int laplaceR = 0, laplaceG = 0, laplaceB = 0;
 
                     for (int kx = -1; kx <= 1; kx++)
                     {
                         for (int ky = -1; ky <= 1; ky++)
                         {
                             Color pixelVecino = bmpOriginal.GetPixel(x + kx, y + ky);
-                            sumaR += pixelVecino.R;
-                            sumaG += pixelVecino.G;
-                            sumaB += pixelVecino.B;
+                            int peso = kernelLaplace[kx + 1, ky + 1];
+
+                            laplaceR += pixelVecino.R * peso;
+                            laplaceG += pixelVecino.G * peso;
+                            laplaceB += pixelVecino.B * peso;
                         }
                     }
 
-                    bmpResultado.SetPixel(x, y, Color.FromArgb(sumaR / 9, sumaG / 9, sumaB / 9));
+                    int magnitudBorde = (Math.Abs(laplaceR) + Math.Abs(laplaceG) + Math.Abs(laplaceB)) / 3;
+
+                    // 2. PASO: CONDICIONAL SEGÚN TU LICENCIADO
+                    if (magnitudBorde > umbralBorde)
+                    {
+                        // SI ES UN BORDE -> Aplicamos el suavizado 
+                        int sumaR = 0, sumaG = 0, sumaB = 0;
+
+                        for (int kx = -1; kx <= 1; kx++)
+                        {
+                            for (int ky = -1; ky <= 1; ky++)
+                            {
+                                Color pixelVecino = bmpOriginal.GetPixel(x + kx, y + ky);
+                                sumaR += pixelVecino.R;
+                                sumaG += pixelVecino.G;
+                                sumaB += pixelVecino.B;
+                            }
+                        }
+
+                        int promR = sumaR / 9;
+                        int promG = sumaG / 9;
+                        int promB = sumaB / 9;
+
+                        bmpResultado.SetPixel(x, y, Color.FromArgb(promR, promG, promB));
+                    }
+                    else
+                    {
+                        // NO ES UN BORDE -> Se queda el color original de la foto sin alterar
+                        bmpResultado.SetPixel(x, y, bmpOriginal.GetPixel(x, y));
+                    }
                 }
             }
+
             picResultado.Image = bmpResultado;
+            MessageBox.Show("Filtro de suavizado por Laplace aplicado con éxito");
+        }
+
+        private void picOriginal_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }</code></pre>

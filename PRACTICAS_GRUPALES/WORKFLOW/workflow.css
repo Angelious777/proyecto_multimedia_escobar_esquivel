@@ -1,0 +1,264 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700;900&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+
+:root {
+    --bg-color: #f6f5f2;
+    --text-color: #1a1a1a;
+    --text-muted: #555555;
+    --border-color: #1a1a1a;
+    --accent-color: #1e4620; /* Tonalidad verde bosque profundo para identificar el módulo de Workflow */
+    --card-bg: #fcfbfa;
+    --font-square: 'Space Grotesk', 'Noto Sans JP', sans-serif;
+    --radius-smooth: 6px;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-square);
+    -webkit-font-smoothing: antialiased;
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.editorial-container {
+    width: 100%;
+    max-width: 1400px; /* Centrado estético en monitores anchos */
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+/* CABECERA EDITORIAL */
+.editorial-header {
+    border-bottom: 1px solid rgba(26, 26, 26, 0.08);
+    padding-bottom: 2rem;
+    margin-bottom: 2.5rem;
+}
+
+.meta-context {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--accent-color);
+    font-weight: 700;
+    display: block;
+    margin-bottom: 0.75rem;
+}
+
+.main-title {
+    font-size: 2.4rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    text-transform: uppercase;
+    line-height: 1.1;
+}
+
+/* BARRA DE BADGES / TRIGGER BAR */
+.action-trigger-bar {
+    display: flex;
+    align-items: center;
+    gap: 1.2rem;
+    margin-bottom: 3.5rem;
+}
+
+.status-badge-active {
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #ffffff;
+    background-color: var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.status-badge {
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
+    border: 1px solid rgba(26, 26, 26, 0.15);
+    padding: 0.45rem 1rem;
+    border-radius: var(--radius-smooth);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* DESCRIPCIÓN DEL PROCESO */
+.workflow-description-section {
+    margin-bottom: 2.5rem;
+}
+
+.section-title-wrapper h2 {
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    margin-bottom: 0.75rem;
+}
+
+.section-title-wrapper p {
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.6;
+    text-align: justify;
+}
+
+/* PANTALLA DE PROYECCIÓN TV / MONITOR */
+.workflow-projection-section {
+    width: 100%;
+    margin-top: 1rem;
+}
+
+.tv-viewer-container {
+    width: 100%;
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-smooth);
+    box-shadow: 0 12px 35px rgba(26, 26, 26, 0.08);
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.tv-viewer-header {
+    background-color: #2d2d2d;
+    padding: 0.75rem 1.2rem;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #3d3d3d;
+    position: relative;
+}
+
+.tv-controls {
+    display: flex;
+    gap: 0.4rem;
+    position: absolute;
+    left: 1.2rem;
+}
+
+.tv-controls .dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+.tv-controls .dot.red { background-color: #ff5f56; }
+.tv-controls .dot.yellow { background-color: #ffbd2e; }
+.tv-controls .dot.green { background-color: #27c93f; }
+
+.tv-title {
+    width: 100%;
+    text-align: center;
+    color: #aaaaaa;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    font-weight: 500;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+/* IFRAME DE CARGA */
+.tv-viewer-viewport {
+    width: 100%;
+    height: 550px; /* Altura generosa para navegar diagramas sin restricción */
+    background-color: #ffffff;
+}
+
+.tv-viewer-viewport iframe {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+
+/* CAJA INFERIOR ADVERTENCIA Y BOTÓN */
+.external-action-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgba(26, 26, 26, 0.02);
+    border: 1px dashed var(--border-color);
+    border-radius: var(--radius-smooth);
+    padding: 1.5rem;
+    gap: 2rem;
+}
+
+.warning-message {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.5;
+    max-width: 65%;
+}
+
+.warning-message i {
+    font-size: 1.1rem;
+    color: var(--accent-color);
+    margin-top: 0.1rem;
+}
+
+/* BOTÓN DE ACCIÓN AL EXTERIOR */
+.action-btn-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+    padding: 0.85rem 1.8rem;
+    font-family: var(--font-square);
+    font-size: 0.78rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border: 1px solid var(--accent-color);
+    background-color: var(--card-bg);
+    color: var(--accent-color);
+    border-radius: var(--radius-smooth);
+    cursor: pointer;
+    text-decoration: none;
+    white-space: nowrap;
+    flex-shrink: 0;
+    box-shadow: 0 2px 0px rgba(26, 26, 26, 0.05);
+    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.action-btn-link:hover {
+    background-color: var(--accent-color);
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(30, 70, 32, 0.15);
+}
+
+/* REGLAS RESPONSIVAS AJUSTADAS */
+@media (max-width: 900px) {
+    .editorial-container {
+        padding: 2rem 1.25rem;
+    }
+    .external-action-box {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1.5rem;
+    }
+    .warning-message {
+        max-width: 100%;
+    }
+    .tv-viewer-viewport {
+        height: 400px;
+    }
+}

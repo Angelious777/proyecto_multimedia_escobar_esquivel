@@ -1,0 +1,42 @@
+[
+    {
+        "nrotramite": "1781848121",
+        "usuario": "angel",
+        "gestion": "2026",
+        "semestre": "1",
+        "observaciones": "prueba 2",
+        "direccion": "AV. VASQUEZ N. 108",
+        "telefono": "65666133",
+        "colegio_origen": "ingles catolico",
+        "habilitado": "SI",
+        "obs_habilitacion": "Todo bien 2",
+        "pago": "SI",
+        "obs_pago": "todo pagado",
+        "materias": [
+            "INF-111 Programación I",
+            "INF-112 Estructuras de Datos"
+        ],
+        "cupo": "SI"
+    },
+    {
+        "nrotramite": "1781849523",
+        "usuario": "angel",
+        "tipo_certificado": "Certificado de No Adeudo",
+        "observaciones": "prueba 212312312",
+        "documentos": "VALIDOS",
+        "obs_documentos": "todo bien",
+        "pago": "SI",
+        "obs_pago": "todo pagado",
+        "cuerpo_certificado": "Por la presente se certifica que el estudiante mencionado cuenta con un récord académico idóneo, habiendo aprobado las asignaturas troncales con un rendimiento regular satisfactorio en la gestión vigente..."
+    },
+    {
+        "nrotramite": "1781850189",
+        "usuario": "angel",
+        "gestion": "2025",
+        "semestre": "1",
+        "observaciones": "Prueba ADE",
+        "direccion": "AV. VASQUEZ N. 108",
+        "telefono": "65666133",
+        "colegio_origen": "ingles catolico"
+    }
+]
