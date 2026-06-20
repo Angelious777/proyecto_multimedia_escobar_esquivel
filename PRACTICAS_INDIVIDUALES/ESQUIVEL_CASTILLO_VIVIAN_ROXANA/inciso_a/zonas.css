@@ -136,7 +136,7 @@ body {
 .media-placeholder-frame {
     position: relative;
     width: 100%;
-    max-height: 340px; 
+    max-height: 400px; 
     
     background-color: rgba(26, 26, 26, 0.02);
     color: transparent;
@@ -150,7 +150,7 @@ body {
 
 .bounded-media {
     width: 100%;
-    height: auto; 
+    object-fit: contain;
     display: block; 
     cursor: pointer;
     transition: opacity 0.2s ease;

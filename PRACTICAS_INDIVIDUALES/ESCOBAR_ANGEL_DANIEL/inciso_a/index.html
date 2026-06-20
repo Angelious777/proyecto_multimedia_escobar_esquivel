@@ -99,14 +99,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Deteccion_Texturas_Practica
 {
     public partial class Form1 : Form
     {
         Bitmap bmp;
+
         int clickX, clickY;
-        string conexion = "Server=localhost;Database=texturas;Trusted_Connection=True;";
 
         public Form1()
         {
@@ -114,7 +115,6 @@ namespace Deteccion_Texturas_Practica
             CargarDatos();
         }
 
-        // Carga interactiva del mapa de bits con filtros explícitos
         private void btnCargarImagen_Click(object sender, EventArgs e)
         {
             openFileDialog1.Filter = "Archivos JPG|*.jpg|Archivos PNG|*.png";
@@ -123,18 +123,20 @@ namespace Deteccion_Texturas_Practica
             pctbImagen.Image = bmp;
         }
 
-        // Transformación lineal de coordenadas y mapeo del píxel real
         private void pctbImagen_MouseClick(object sender, MouseEventArgs e)
         {
             if (bmp == null) return;
 
+            // Escala entre PictureBox e imagen real
             float scaleX = (float)bmp.Width / pctbImagen.Width;
             float scaleY = (float)bmp.Height / pctbImagen.Height;
 
+            // Convertir coordenadas
             int x = (int)(e.X * scaleX);
             int y = (int)(e.Y * scaleY);
 
-            if (x &gt;= 0 && x &lt; bmp.Width && y &gt;= 0 && y &lt; bmp.Height)
+            // Validar límites
+            if (x >= 0 && x < bmp.Width && y >= 0 && y < bmp.Height)
             {
                 Color c = bmp.GetPixel(x, y);
 
@@ -149,9 +151,11 @@ namespace Deteccion_Texturas_Practica
             clickY = y;
         }
 
-        // Inserción transaccional parametrizada contra Inyección SQL
+        string conexion = "Server=localhost;Database=texturas;Trusted_Connection=True;";
+
         private void btnGuardarImagen_Click(object sender, EventArgs e)
         {
+
             if (string.IsNullOrWhiteSpace(txtNombre.Text))
             {
                 MessageBox.Show("Ingresa el tipo de textura");
@@ -162,6 +166,7 @@ namespace Deteccion_Texturas_Practica
                 using (SqlConnection conn = new SqlConnection(conexion))
                 {
                     conn.Open();
+
                     string query = "INSERT INTO textura (tipo_textura, R, G, B) VALUES (@tipo, @r, @g, @b)";
 
                     using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -184,7 +189,6 @@ namespace Deteccion_Texturas_Practica
             }
         }
 
-        // Recuperación de registros mediante arquitectura desconectada
         private void CargarDatos()
         {
             try
@@ -192,10 +196,12 @@ namespace Deteccion_Texturas_Practica
                 using (SqlConnection conn = new SqlConnection(conexion))
                 {
                     conn.Open();
+
                     string query = "SELECT * FROM textura";
 
                     SqlDataAdapter da = new SqlDataAdapter(query, conn);
                     DataTable dt = new DataTable();
+
                     da.Fill(dt);
 
                     dataGridView1.DataSource = dt;
@@ -207,25 +213,25 @@ namespace Deteccion_Texturas_Practica
             }
         }
 
-        // Clasificador Espacial basado en Distancia Euclídea de Color Promedio
         private void btnDetectar_Click(object sender, EventArgs e)
         {
             if (bmp == null) return;
 
             int sR = 0, sG = 0, sB = 0;
             int contador = 0;
-
-            // Procesamiento Convolucional (Entorno Matriz 5x5)
-            for (int i = clickX - 5; i &lt;= clickX + 5; i++)
+// Promedio en rango de 5 píxeles
+            for (int i = clickX - 5; i <= clickX + 5; i++)
             {
-                for (int j = clickY - 5; j &lt;= clickY + 5; j++)
+                for (int j = clickY - 5; j <= clickY + 5; j++)
                 {
-                    if (i &gt;= 0 && i &lt; bmp.Width && j &gt;= 0 && j &lt; bmp.Height)
+                    if (i >= 0 && i < bmp.Width && j >= 0 && j < bmp.Height)
                     {
                         Color c = bmp.GetPixel(i, j);
+
                         sR += c.R;
                         sG += c.G;
                         sB += c.B;
+
                         contador++;
                     }
                 }
@@ -235,14 +241,17 @@ namespace Deteccion_Texturas_Practica
             int pG = sG / contador;
             int pB = sB / contador;
 
+            // Mostrar color promedio
             pctbColor.BackColor = Color.FromArgb(pR, pG, pB);
 
+            // Buscar el más cercano en la BD
             string mejorTipo = "";
             double menorDistancia = double.MaxValue;
 
             using (SqlConnection conn = new SqlConnection(conexion))
             {
                 conn.Open();
+
                 string query = "SELECT tipo_textura, R, G, B FROM textura";
 
                 using (SqlCommand cmd = new SqlCommand(query, conn))
@@ -254,14 +263,14 @@ namespace Deteccion_Texturas_Practica
                         int g = dr.GetInt32(2);
                         int b = dr.GetInt32(3);
 
-                        // Métrica Geométrica Euclídea de tres componentes
+                        // Distancia euclidiana
                         double distancia = Math.Sqrt(
                             Math.Pow(pR - r, 2) +
                             Math.Pow(pG - g, 2) +
                             Math.Pow(pB - b, 2)
                         );
 
-                        if (distancia &lt; menorDistancia)
+                        if (distancia < menorDistancia)
                         {
                             menorDistancia = distancia;
                             mejorTipo = dr.GetString(0);
@@ -270,6 +279,7 @@ namespace Deteccion_Texturas_Practica
                 }
             }
 
+            // Resultado final
             MessageBox.Show("Textura detectada: " + mejorTipo);
         }
     }

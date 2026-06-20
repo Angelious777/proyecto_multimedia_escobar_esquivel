@@ -1,36 +1,37 @@
-/*
-   ARQUITECTURA DE CONTROLADOR PRINCIPAL 
-   Manejo de estados, carga asíncrona de módulos y control optimizado de reproducción multimedia.
-*/
-
 document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+
     const sidebarLinks = document.querySelectorAll(".sidebar-link");
     const defaultHero = document.getElementById("default-hero-view");
     const sandboxIframe = document.getElementById("sandbox-iframe");
 
     sidebarLinks.forEach(link => {
         link.addEventListener("click", (e) => {
-            e.preventDefault(); // Evita que la página se recargue por completo
+            e.preventDefault();
 
-            // Remover clase activa de todos los enlaces y agregar al actual
             sidebarLinks.forEach(l => l.classList.remove("active"));
             link.classList.add("active");
 
-            // Obtener la ruta del archivo HTML del inciso
             const targetUrl = link.getAttribute("href");
 
             if (targetUrl && targetUrl !== "#") {
-                // Ocultar el diseño por defecto del Home
                 if (defaultHero) defaultHero.style.display = "none";
                 
-                // Mostrar el iframe y asignarle la página del sub-módulo
                 sandboxIframe.style.display = "block";
                 sandboxIframe.src = targetUrl;
+
+                sandboxIframe.onload = () => {
+                    const currentTheme = document.documentElement.getAttribute("data-theme");
+                    try {
+                        sandboxIframe.contentDocument.documentElement.setAttribute("data-theme", currentTheme);
+                    } catch (e) {
+                        console.error("No se pudo aplicar el tema al iframe debido a políticas de origen común.", e);
+                    }
+                };
             }
         });
     });
 
-    // Manejo del botón de inicio para regresar a la vista por defecto
     const homeLink = document.querySelector('.navbar-menu .navbar-item a[href="#"]');
     if (homeLink) {
         homeLink.parentElement.addEventListener("click", (e) => {
@@ -41,7 +42,6 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
-/* Control de Modo Oscuro sin parpadeos */
 function initTheme() {
     const savedTheme = localStorage.getItem("hoka-theme") || "light";
     document.documentElement.setAttribute("data-theme", savedTheme);
@@ -55,6 +55,18 @@ function initTheme() {
             document.documentElement.setAttribute("data-theme", newTheme);
             localStorage.setItem("hoka-theme", newTheme);
             updateThemeIcon(newTheme);
+
+            const sandboxIframe = document.getElementById("sandbox-iframe");
+            if (sandboxIframe && sandboxIframe.contentDocument) {
+                try {
+                    sandboxIframe.contentDocument.documentElement.setAttribute("data-theme", newTheme);
+                } catch (e) {}
+            }
+            
+            const viewport = document.getElementById("content-viewport");
+            if (viewport) {
+                viewport.setAttribute("data-theme", newTheme);
+            }
         });
     }
 }
@@ -66,7 +78,6 @@ function updateThemeIcon(theme) {
     }
 }
 
-/* Enrutamiento dinámico asíncrono para inyección de incisos */
 function initNavigation() {
     const links = document.querySelectorAll(".sidebar-link, .nav-action-link");
     const viewport = document.getElementById("content-viewport");
@@ -77,11 +88,9 @@ function initNavigation() {
             const targetUrl = link.getAttribute("href");
             if (!targetUrl || targetUrl === "#") return;
 
-            // Actualizar clases activas
             links.forEach(l => l.classList.remove("active"));
             link.classList.add("active");
 
-            // Animación de salida suave del contenido anterior
             viewport.style.opacity = 0;
 
             setTimeout(async () => {
@@ -93,11 +102,12 @@ function initNavigation() {
                     const parser = new DOMParser();
                     const doc = parser.parseFromString(htmlText, "text/html");
                     
-                    // Extraemos la sección específica de la práctica
                     const incomingContent = doc.querySelector(".exercise-container") || doc.body;
                     viewport.innerHTML = incomingContent.innerHTML;
                     
-                    // Re-inicializar videos y visores 3D inyectados
+                    const currentTheme = document.documentElement.getAttribute("data-theme");
+                    viewport.setAttribute("data-theme", currentTheme);
+
                     optimizeBackgroundVideos();
                     if (window.initSubModules) window.initSubModules();
 
@@ -112,10 +122,6 @@ function initNavigation() {
     });
 }
 
-/* Optimización de Videos de Evidencia de Desarrollo:
-   Retrasa deliberadamente la carga de los buffers de video pesados e implementa 
-   reproducción inteligente basada en la visibilidad del usuario (Intersection Observer).
-*/
 function optimizeBackgroundVideos() {
     const videoBlocks = document.querySelectorAll(".video-container-block");
 
@@ -132,7 +138,6 @@ function optimizeBackgroundVideos() {
                 const video = block.querySelector("video");
                 
                 if (video && !block.classList.contains("loaded")) {
-                    // Retraso controlado intencional (simula render progresivo fluido)
                     setTimeout(() => {
                         const source = video.querySelector("source");
                         if (source && source.getAttribute("data-src")) {
@@ -147,7 +152,6 @@ function optimizeBackgroundVideos() {
                     video.play();
                 }
             } else {
-                // Pausar video si sale de la pantalla 
                 const video = entry.target.querySelector("video");
                 if (video) video.pause();
             }

@@ -67,7 +67,7 @@ function initWebGLWidget() {
     if (overlayTrigger && unityIframe) {
         overlayTrigger.addEventListener('click', () => {
             overlayTrigger.style.display = "none";
-            unityIframe.src = "./vaca_build/index.html";
+            unityIframe.src = "./unity_build/index.html";
         });
     }
 

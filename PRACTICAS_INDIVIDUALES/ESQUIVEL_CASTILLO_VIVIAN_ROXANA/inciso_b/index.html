@@ -85,7 +85,6 @@
             </div>
             <div class="modal-card-body code-body-wrapper">
                 <pre><code>using System;
-using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -136,11 +135,11 @@ namespace filtro_suavizado
             int altoReal = bmpOriginal.Height;
 
             bmpResultado = new Bitmap(anchoReal, altoReal);
-
+            bmpBordes = new Bitmap(anchoReal, altoReal);
             int[,] kernelLaplace = new int[3, 3] {
-                {  0,  1,  0 },
-                {  1, -4,  1 },
-                {  0,  1,  0 }
+                {  -1,  -1,  -1 },
+                {  -1, 8,  -1 },
+                {  -1,  1,  -1 }
             };
 
             int umbralBorde = 25;
@@ -177,6 +176,8 @@ namespace filtro_suavizado
                     }
 
                     int magnitudBorde = (Math.Abs(laplaceR) + Math.Abs(laplaceG) + Math.Abs(laplaceB)) / 3;
+                    int valorBorde = Math.Min(255, magnitudBorde);
+                    bmpBordes.SetPixel(x, y, Color.FromArgb(valorBorde, valorBorde, valorBorde));
 
                     // 2. PASO: CONDICIONAL SEGÚN TU LICENCIADO
                     if (magnitudBorde > umbralBorde)
@@ -210,6 +211,7 @@ namespace filtro_suavizado
             }
 
             picResultado.Image = bmpResultado;
+            pctBorde.Image = bmpBordes;
             MessageBox.Show("Filtro de suavizado por Laplace aplicado con éxito");
         }
 

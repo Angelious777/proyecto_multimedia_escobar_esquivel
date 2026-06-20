@@ -124,6 +124,7 @@ body {
     padding: 1.25rem;
     overflow: hidden;
     height: fit-content;
+    width: fit-content;
 }
 
 .capture-card.span-2 {
@@ -133,7 +134,8 @@ body {
 /* MODIFICADO: Ahora el marco se adapta por completo a la altura nativa de la imagen */
 .media-placeholder-frame {
     position: relative;
-    width: 100%;
+    width: 80%; 
+    margin: 0 auto; 
     height: auto;
     background-color: rgba(26, 26, 26, 0.02);
     color: transparent;
